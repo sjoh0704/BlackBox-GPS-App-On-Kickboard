@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "17289701302",
+    "firebase_url": "https://sodium-inverter-294315.firebaseio.com",
+    "project_id": "sodium-inverter-294315",
+    "storage_bucket": "sodium-inverter-294315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17289701302:android:8c6d21cf93d02b00748317",
+        "android_client_info": {
+          "package_name": "org.techtown.blackbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17289701302-ioehe2odkp2cup8b95e54do6u6eo5r5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_fGM0VIIreYFTkoESTeq9nIzNjT5waeg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17289701302-ioehe2odkp2cup8b95e54do6u6eo5r5h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
