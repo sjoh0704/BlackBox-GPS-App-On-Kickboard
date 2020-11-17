@@ -44,6 +44,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.kakao.usermgmt.response.model.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 8000;
     private Button btn_gallery;
+    private Button btn_exit ;
     private Camera camera;
     private MediaRecorder mediaRecorder;
     private Button btn_record, btn_upload;
@@ -78,6 +80,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private GpsTracker gpsTracker;
     private String userId;
     private String parentNum;
+    private long backKeyPressedTime = 0;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int VIDEO_REQUEST_CODE = 1000;
@@ -87,25 +90,24 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        clearPref();
 
         //startService(new Intent(this, UnCatchTask.class));
         setContentView(R.layout.activity_video);
         allowPermission();  //Ted permission으로 권한 얻어오기
         makeDir();
+        if(userId == null || parentNum == null) {
+            userId = getIntent().getStringExtra("UserId");
+            parentNum = getIntent().getStringExtra("UserPPhone");
+        }
 
-        userId = getIntent().getStringExtra("UserId");
-        parentNum = getIntent().getStringExtra("UserParentNumber");
-
-        Log.d("getUserID: ", userId);
-        Log.d("getUserParentNumber: ", parentNum);
 
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         senAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-
+        btn_exit = findViewById(R.id.btn_exit);
         btn_gallery = findViewById(R.id.btn_gallery);
         btn_record = findViewById(R.id.btn_record);
         btn_upload = findViewById(R.id.btn_upload);
@@ -114,6 +116,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         btn_record.setOnClickListener(this);
         btn_upload.setOnClickListener(this);
         btn_send.setOnClickListener(this);
+        btn_exit.setOnClickListener(this);
         textPhoneNo = findViewById(R.id.edit_text_phone);
 
 
@@ -122,7 +125,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         progressDialog.setCancelable(false);
         progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
 
+        // 갖고 있던 상태지우고 다시 쓰기
 
+        saveState();
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -175,7 +180,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     @Override
     protected void onPause() {
         super.onPause();
-        saveState();
+//        saveState();
         sensorManager.unregisterListener(this);
 
     }
@@ -449,8 +454,21 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 startActivityForResult(intent, VIDEO_REQUEST_CODE);
 
                 break;
+
+            case R.id.btn_exit:
+                Intent exit_intent = new Intent(getApplicationContext(), LoginActivity.class);
+                clearPref();
+                startActivity(exit_intent);
+                break;
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("getUserID: ", userId);
+        Log.d("getUserParentNumber: ", parentNum);
     }
 
     @Override
@@ -584,10 +602,23 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+           return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+            moveTaskToBack(true);						// 태스크를 백그라운드로 이동
+            finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
+            android.os.Process.killProcess(android.os.Process.myPid());	// 앱 프로세스 종료
+        }
 
+    }
 
-
-//    public class  UnCatchTaskService extends Service {
+    //    public class  UnCatchTaskService extends Service {
 //        @Nullable
 //        @Override
 //        public IBinder onBind(Intent intent) {
@@ -622,6 +653,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         editor.putString("num", parentNum);
         editor.commit();
 
+
     }
     protected void restoreState(){
         SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
@@ -636,6 +668,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
+        userId = null;
+        parentNum = null;
         editor.commit();
     }
 

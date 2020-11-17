@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +23,17 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
 import java.security.MessageDigest;
+
 import java.security.NoSuchAlgorithmException;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
@@ -37,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         et_pass = findViewById(R.id.et_pass);
         btn_login = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);
-
+        long now = System.currentTimeMillis();
 
         // 회원가입 버튼을 클릭 시 수행
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +64,12 @@ public class LoginActivity extends AppCompatActivity {
                 // EditText에 현재 입력되어있는 값을 get(가져온다)해온다.
                 String UserId = et_id.getText().toString();
                 String UserPwd = et_pass.getText().toString();
+                // 현재시간을 date 변수에 저장한다.
+                Date date = new Date(now);
+                // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+                SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                // nowDate 변수에 값을 저장한다.
+                String UserDate = sdfNow.format(date);
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -66,13 +82,15 @@ public class LoginActivity extends AppCompatActivity {
                             if (success) { // 로그인에 성공한 경우
                                 String UserId = jsonObject.getString("UserId");
                                 String UserPwd = jsonObject.getString("UserPwd");
+                                String UserPPhone = jsonObject.getString("UserPPhone");
 
                                 Toast.makeText(getApplicationContext(),"로그인에 성공하였습니다.",Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, VideoActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+
+                                // 아이디, parent_phone 데이터 전송
+                                intent.putExtra("UserPPhone", UserPPhone);
                                 intent.putExtra("UserId", UserId);
                                 intent.putExtra("UserPwd", UserPwd);
-
-                                intent.putExtra("UserParentNumber", "01072832783");
 
                                 startActivity(intent);
                             } else { // 로그인에 실패한 경우
@@ -92,4 +110,5 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
 }
