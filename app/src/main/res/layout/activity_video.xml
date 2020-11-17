@@ -29,6 +29,7 @@
             android:visibility="gone"
             android:text="파일 업로드"/>
         <EditText
+            android:visibility="gone"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:hint="전화번호 입력"

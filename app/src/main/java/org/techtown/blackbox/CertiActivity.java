@@ -187,6 +187,7 @@ public class CertiActivity extends AppCompatActivity {
         @Override
         public void onSessionOpenFailed(KakaoException e) {
             Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요: "+e.toString(), Toast.LENGTH_SHORT).show();
+            Log.e("error", e.toString());
         }
     }
 }

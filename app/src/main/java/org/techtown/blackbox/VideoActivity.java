@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -69,13 +71,13 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private boolean recording = false;
     private String filename = null;
     private String dirPath;
-
     private Button btn_send;
     private EditText textPhoneNo;
     private String phoneNum = null;
     private ProgressDialog progressDialog;
-
     private GpsTracker gpsTracker;
+    private String userId;
+    private String parentNum;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int VIDEO_REQUEST_CODE = 1000;
@@ -91,6 +93,12 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         setContentView(R.layout.activity_video);
         allowPermission();  //Ted permission으로 권한 얻어오기
         makeDir();
+
+        userId = getIntent().getStringExtra("UserId");
+        parentNum = getIntent().getStringExtra("UserParentNumber");
+
+        Log.d("getUserID: ", userId);
+        Log.d("getUserParentNumber: ", parentNum);
 
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
@@ -167,12 +175,15 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     @Override
     protected void onPause() {
         super.onPause();
+        saveState();
         sensorManager.unregisterListener(this);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        restoreState();
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -307,8 +318,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                         @Override
                         public void run() {
 
-                            if(textPhoneNo.length() == 11){
-                                phoneNum = textPhoneNo.getText().toString();
+                            if(parentNum.length() == 11){
+                                phoneNum = parentNum;
                                 //과부화도 덜되고 동영상 처리는 여기서 하는게 좋다
                                 Toast.makeText(VideoActivity.this, "녹화가 시작되었습니다.", Toast.LENGTH_SHORT).show();
                                 try {
@@ -351,7 +362,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.release();
                                 }}
                             else{
-                                Toast.makeText(VideoActivity.this, "전화번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VideoActivity.this, "유효하지 않은 전화번호", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -369,7 +380,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
                         Uri file = Uri.fromFile(new File(dirPath +"/"+ filename));
 
-                        StorageReference storageRef = storage.getReferenceFromUrl("gs://sodium-inverter-294315.appspot.com").child(filename);
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://sodium-inverter-294315.appspot.com").child("BlackBox_" + userId +"/" + filename);
                         //storage url 적는란
 
 
@@ -603,4 +614,30 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 //            stopSelf(); //서비스도 같이 종료
 //
 //        }
+
+    protected void saveState(){
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("id", userId);
+        editor.putString("num", parentNum);
+        editor.commit();
+
+    }
+    protected void restoreState(){
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        if((pref!=null) && (pref.contains("id"))){
+            userId = pref.getString("id", "");
+        }
+        if((pref!=null) && (pref.contains("num"))){
+            parentNum = pref.getString("num", "");
+        }
+    }
+    protected void clearPref(){
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+
 }
