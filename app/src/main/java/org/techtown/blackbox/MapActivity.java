@@ -81,8 +81,7 @@ public class MapActivity extends AppCompatActivity
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500;//0.5초
 
 
-    // onRequestPermissionsResult에서 수신된 결과에서
-    // ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용
+    // onRequestPermissionsResult에서 수신된 결과에서 ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     boolean needRequest = false;
 
