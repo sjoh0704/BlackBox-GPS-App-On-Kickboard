@@ -13,7 +13,6 @@ public class GPSLocationRequest extends StringRequest{
     final static private String URL = "http://34.64.132.117/gpsupdate.php";
     private Map<String, String> map;
 
-
     public GPSLocationRequest( String StartLat, String StartLong, String DestinationLat, String DestinationLong, String UserId,
                               Response.Listener<String> listener) {
         super(Request.Method.POST, URL, listener, null);
@@ -25,7 +24,6 @@ public class GPSLocationRequest extends StringRequest{
         map.put("DestinationLat",DestinationLat);
         map.put("DestinationLong",DestinationLong);
         map.put("UserId", UserId);
-
     }
 
     @Override
