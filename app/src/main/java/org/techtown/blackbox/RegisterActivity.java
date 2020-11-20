@@ -34,8 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validate = false;
     long now = System.currentTimeMillis();
 
-
-    String strAgeRange;
+    String strAgeRange, strName, strPName, nameNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // 액티비티 시작시 처음으로 실행되는 생명주기!
@@ -54,6 +53,9 @@ public class RegisterActivity extends AppCompatActivity {
         //데이터 받기
         Intent intent = getIntent();
         strAgeRange = intent.getStringExtra("ageRange");
+        strName = intent.getStringExtra("Name");
+        strPName = intent.getStringExtra("Name");
+        nameNum = intent.getStringExtra("btn_num");
 
         if (strAgeRange.equals("0~9") && strAgeRange.equals("10~19")) {
             UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {
@@ -123,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Long result) {
-                    Toast.makeText(getApplicationContext(), "20살 미만 본인인증을 했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "본인인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -180,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         //회원가입 버튼 클릭 시 수행
-        join_button = findViewById( R.id.join_button );
+        join_button = findViewById( R.id.join_button);
         join_button.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,8 +267,6 @@ public class RegisterActivity extends AppCompatActivity {
                 queue.add( registerRequest );
                 queue.add( gpsidRequest );
 
-//                RequestQueue queue1 = Volley.newRequestQueue( RegisterActivity.this );
-//                queue1.add( gpsidRequest );
             }
         });
 

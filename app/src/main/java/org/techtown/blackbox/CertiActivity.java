@@ -29,6 +29,7 @@ public class CertiActivity extends AppCompatActivity {
     private SessionCallback sessionCallback;
     private AlertDialog dialog;
     int pa_certi = 0;
+    int btn_num = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +55,31 @@ public class CertiActivity extends AppCompatActivity {
             }
         }) ;
 
-        Button btnLoginKakao = findViewById(R.id.kakaoLoginButton2);
-        btnLoginKakao.setOnClickListener(new Button.OnClickListener() {
+        Button btnLoginKakaoUnder = findViewById(R.id.kakaoLoginButton2);
+        btnLoginKakaoUnder.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_num = 1;
+                switch (pa_certi) {
+                    case 0:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
+                        dialog = builder.setMessage("개인정보수집 동의에 체크하세요").setNegativeButton("확인", null).create();
+                        dialog.show();
+                        break;
 
+                    case 1:
+                        Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, CertiActivity.this);
+                        break;
+                }
+
+            }
+        });
+
+        Button btnLoginKakaoOver = findViewById(R.id.kakaoLoginButton3);
+        btnLoginKakaoOver.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_num = 2;
                 switch (pa_certi) {
                     case 0:
                         AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
@@ -108,7 +129,6 @@ public class CertiActivity extends AppCompatActivity {
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
                     Toast.makeText(getApplicationContext(),"세션이 닫혔습니다. 다시 시도해 주세요: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
-                    Log.d("안된","다아빠안ㄷㅂㅈㄷㅂㄷㅈㄷㄱㅁㅇㄹㅁㄴㅇ잔다");
                 }
 
                 @Override
@@ -171,6 +191,7 @@ public class CertiActivity extends AppCompatActivity {
                         //Intent intent = new Intent(CertiActivity.this, RegisterActivity.class);
                         intent.putExtra("name", result.getNickname());
                         intent.putExtra("profile", result.getProfileImagePath());
+                        intent.putExtra("btn_num", btn_num);
 
                         if (result.getKakaoAccount().hasAgeRange() == OptionalBoolean.TRUE)
                             intent.putExtra("ageRange", result.getKakaoAccount().getAgeRange().getValue());
