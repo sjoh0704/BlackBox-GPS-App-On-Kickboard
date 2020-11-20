@@ -208,9 +208,17 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 //한 칸이라도 입력 안했을 경우
-                if (UserId.equals("") || UserPwd.equals("") || UserName.equals("")) {
+                if (UserId.equals("") || UserPwd.equals("") || UserName.equals("") || UserPhone.equals("")|| UserPName.equals("")|| UserPPhone.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                     dialog = builder.setMessage("모두 입력해주세요.").setNegativeButton("확인", null).create();
+                    dialog.show();
+                    return;
+                }
+
+                //패스워드 8자리 미만일 때 다시 하게 하기
+                if (UserPwd.length() < 8) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialog = builder.setMessage("비밀번호를 8자리 이상 입력해 주세요").setNegativeButton("확인", null).create();
                     dialog.show();
                     return;
                 }

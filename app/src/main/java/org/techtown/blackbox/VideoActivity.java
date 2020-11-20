@@ -196,7 +196,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         String str = Environment.getExternalStorageState();
         if ( str.equals(Environment.MEDIA_MOUNTED)) {
 
-            dirPath = "/sdcard/BlackBox";
+            dirPath = "/data/org.techtown.blackbox/BlackBox";
             File file = new File(dirPath);
             if( !file.exists() )  // 원하는 경로에 폴더가 있는지 확인
             {
@@ -335,7 +335,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.setCamera(camera);
                                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                                     mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-                                    mediaRecorder. setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
+                                    mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                                     mediaRecorder.setOrientationHint(90);
 
                                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
