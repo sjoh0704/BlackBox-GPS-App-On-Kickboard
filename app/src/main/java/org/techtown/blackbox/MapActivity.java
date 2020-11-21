@@ -145,12 +145,11 @@ public class MapActivity extends AppCompatActivity
 
         mMap = googleMap;
 
-        //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자가 보이기 전에
-        //지도의 초기위치를 서울로 함
+        //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자가 보이기 전 지도의 초기위치를 서울로 함
         setDefaultLocation();
 
         //런타임 퍼미션 처리
-        // 위치 퍼미션을 갖고 있는지 체크
+        //위치 퍼미션을 갖고 있는지 체크
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(

@@ -62,7 +62,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private Sensor senAccelerometer;
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
-    private static final int SHAKE_THRESHOLD = 8000;
+    private static final int SHAKE_THRESHOLD = 5500;
     private Button btn_gallery;
     private Button btn_exit ;
     private Camera camera;
@@ -99,6 +99,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         if(userId == null || parentNum == null) {
             userId = getIntent().getStringExtra("UserId");
             parentNum = getIntent().getStringExtra("UserPPhone");
+
+
         }
 
 
@@ -196,7 +198,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         String str = Environment.getExternalStorageState();
         if ( str.equals(Environment.MEDIA_MOUNTED)) {
 
-            dirPath = "/data/org.techtown.blackbox/BlackBox";
+            dirPath = getApplicationContext().getFilesDir().getAbsolutePath() + "/blackbox";
+//            dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BlackBox";
+
             File file = new File(dirPath);
             if( !file.exists() )  // 원하는 경로에 폴더가 있는지 확인
             {
@@ -216,7 +220,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 .setPermissionListener(permission)
                 .setRationaleMessage("필요한 권한을 허용해주세요.")
                 .setDeniedMessage("권한이 거부되었습니다.")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.SEND_SMS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION )
+                .setPermissions(Manifest.permission.CAMERA,  Manifest.permission.RECORD_AUDIO, Manifest.permission.SEND_SMS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION )
                 .check();
     }
 
@@ -338,7 +342,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                                     mediaRecorder.setOrientationHint(90);
 
-                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
                                     Date now = new Date();
                                     filename = formatter.format(now) + ".mp4";
 
@@ -441,17 +445,21 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 double latitude = gpsTracker.getLatitude();
                 double longtitude = gpsTracker.getLongitude();
                 String address = getCurrentAddress(latitude, longtitude);
-                String location = "\n위도: " + latitude + "\n경도: " + longtitude;
-                sendSms(phoneNum, address+location);
+//                String location = "\n위도: " + latitude + "\n경도: " + longtitude + "\n";
+                String URL = "\nhttp://map-path.paas-ta.org/?id=" + userId;
+                sendSms(phoneNum, address + URL);
                 phoneNum = null;
                 Toast.makeText(this, "문자 메시지 전송", Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.btn_gallery:
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("video/*");
-                startActivityForResult(intent, VIDEO_REQUEST_CODE);
+                Intent intent = new Intent(getApplicationContext(), VideoGallery.class);
+
+                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_PICK);
+//                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                intent.setType("video/*");
+//                startActivityForResult(intent, VIDEO_REQUEST_CODE);
 
                 break;
 
@@ -584,6 +592,12 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                     Intent video_intent = new Intent(getApplicationContext(), VideoGallery.class);
                     video_intent.putExtra("videoUri", uri);
                     startActivity(video_intent);
+////
+//                    Uri uri = intent.getData();
+//                    Intent video_intent = new Intent(getApplicationContext(), VideoGallery.class);
+//                    video_intent.putExtra("videoUri", uri);
+//                    startActivity(video_intent);
+
                 }
                 catch (Exception e){
                     e.printStackTrace();
