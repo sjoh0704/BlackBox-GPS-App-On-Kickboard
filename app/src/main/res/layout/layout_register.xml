@@ -34,7 +34,7 @@
         <com.google.android.material.textfield.TextInputLayout
 
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
             <EditText
@@ -52,7 +52,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="220dp"
             android:layout_marginTop="-40dp"
-            android:text="확인"
+            android:text="CHECK"
             app:layout_constraintBaseline_toBaselineOf="@+id/join_id"
             app:layout_constraintEnd_toEndOf="@+id/join_phone" />
 
@@ -97,18 +97,19 @@
                 style="@style/modifiedEditText"
                 android:hint="Parent Name"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/parent"
-            android:layout_marginTop="@dimen/signup_text_margin_top">
+            android:layout_marginTop="@dimen/signup_text_margin_top"
+            android:layout_marginBottom="20dp">
             <EditText
                 android:id="@+id/join_pphone"
                 style="@style/modifiedEditText"
                 android:hint="Parent Phone Number"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

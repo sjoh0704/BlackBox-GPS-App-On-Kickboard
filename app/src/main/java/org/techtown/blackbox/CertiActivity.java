@@ -29,7 +29,7 @@ public class CertiActivity extends AppCompatActivity {
     private SessionCallback sessionCallback;
     private AlertDialog dialog;
     int pa_certi = 0;
-    int btn_num = 0;
+//    String btn_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class CertiActivity extends AppCompatActivity {
         btnLoginKakaoUnder.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_num = 1;
+//                btn_num = "1";
                 switch (pa_certi) {
                     case 0:
                         AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
@@ -68,7 +68,7 @@ public class CertiActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, CertiActivity.this);
+                        Session.getCurrentSession().open(AuthType.KAKAO_ACCOUNT, CertiActivity.this);
                         break;
                 }
 
@@ -79,7 +79,7 @@ public class CertiActivity extends AppCompatActivity {
         btnLoginKakaoOver.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_num = 2;
+//                btn_num = "2";
                 switch (pa_certi) {
                     case 0:
                         AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
@@ -88,7 +88,7 @@ public class CertiActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, CertiActivity.this);
+                        Session.getCurrentSession().open(AuthType.KAKAO_ACCOUNT, CertiActivity.this);
                         break;
                 }
 
@@ -154,7 +154,7 @@ public class CertiActivity extends AppCompatActivity {
                             needsScopeAutority = needsScopeAutority.substring(2);
                         }
                         Toast.makeText(getApplicationContext(), needsScopeAutority+"에 대한 권한이 허용되지 않았습니다. 개인정보 제공에 동의해주세요.", Toast.LENGTH_SHORT).show(); // 개인정보 제공에 동의해달라는 Toast 메세지 띄움
-                        Log.d("안된","다아빠안잔다");
+
                         // 회원탈퇴 처리
                         UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {
                             @Override
@@ -191,7 +191,7 @@ public class CertiActivity extends AppCompatActivity {
                         //Intent intent = new Intent(CertiActivity.this, RegisterActivity.class);
                         intent.putExtra("name", result.getNickname());
                         intent.putExtra("profile", result.getProfileImagePath());
-                        intent.putExtra("btn_num", btn_num);
+//                        intent.putExtra("btn_num", btn_num);
 
                         if (result.getKakaoAccount().hasAgeRange() == OptionalBoolean.TRUE)
                             intent.putExtra("ageRange", result.getKakaoAccount().getAgeRange().getValue());

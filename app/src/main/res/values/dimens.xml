@@ -3,7 +3,7 @@
     <!--dimes for design 3-->
     <dimen name="headerTextSize">30sp</dimen>
     <dimen name="headerTextCardSize">40sp</dimen>
-    <dimen name="newsMoreTextSize">12sp</dimen>
+    <dimen name="newsMoreTextSize">15sp</dimen>
     <dimen name="loginCardRadius">20dp</dimen>
     <dimen name="loginViewsMargin">20dp</dimen>
 

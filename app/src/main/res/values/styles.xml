@@ -54,6 +54,10 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="headerTextPrimaryHome" parent="headerText">
+        <item name="android:textColor">@color/whiteCardColor</item>
+    </style>
+
     <style name="modifiedEditText" parent="parent">
         <item name="android:textSize">@dimen/newsMoreTextSize</item>
         <item name="android:backgroundTint">@color/primaryTextColor</item>
@@ -66,6 +70,18 @@
 
     <style name="loginButton" parent="viewParent">
         <item name="android:background">@drawable/ic_btn_bk</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HomeButton" parent="viewParent">
+        <item name="android:background">@drawable/home_btn_bk</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CertiButton" parent="viewParent">
+        <item name="android:background">@drawable/certi_btn_bk</item>
         <item name="android:textColor">@color/whiteTextColor</item>
         <item name="android:textStyle">bold</item>
     </style>

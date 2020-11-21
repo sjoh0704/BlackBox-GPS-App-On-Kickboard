@@ -53,9 +53,17 @@ public class RegisterActivity extends AppCompatActivity {
         //데이터 받기
         Intent intent = getIntent();
         strAgeRange = intent.getStringExtra("ageRange");
-        strName = intent.getStringExtra("Name");
-        strPName = intent.getStringExtra("Name");
-        nameNum = intent.getStringExtra("btn_num");
+//        strName = intent.getStringExtra("Name");
+//        nameNum = intent.getStringExtra("btn_num");
+//        Log.d("ste", strName);
+//        if (nameNum.equals("1")){
+//            join_pname.setText(strName);
+//            //join_pname.setEnabled(false);
+//        }
+//        else{
+//            join_name.setText(strName);
+//           // join_name.setEnabled(false);
+//        }
 
         if (strAgeRange.equals("0~9") && strAgeRange.equals("10~19")) {
             UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {

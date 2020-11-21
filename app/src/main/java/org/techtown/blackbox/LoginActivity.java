@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"로그인에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                                 //Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
 
-                                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 // 아이디, parent_phone 데이터 전송
                                 intent.putExtra("UserPPhone", UserPPhone);
                                 intent.putExtra("UserId", UserId);
