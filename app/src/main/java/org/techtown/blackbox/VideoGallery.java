@@ -1,26 +1,14 @@
 package org.techtown.blackbox;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
-
 import java.io.File;
-import java.util.List;
 
 
 public class VideoGallery extends AppCompatActivity {

@@ -200,6 +200,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
             dirPath = getApplicationContext().getFilesDir().getAbsolutePath() + "/blackbox";
 //            dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/BlackBox";
+
             File file = new File(dirPath);
             if( !file.exists() )  // 원하는 경로에 폴더가 있는지 확인
             {
@@ -338,7 +339,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.setCamera(camera);
                                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                                     mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-                                    mediaRecorder. setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
+                                    mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                                     mediaRecorder.setOrientationHint(90);
 
                                     SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
