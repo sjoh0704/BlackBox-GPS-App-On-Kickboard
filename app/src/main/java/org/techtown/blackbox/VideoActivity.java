@@ -36,6 +36,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,8 +65,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 5500;
-    private Button btn_gallery;
-    private Button btn_exit ;
+
     private Camera camera;
     private MediaRecorder mediaRecorder;
     private Button btn_record, btn_upload;
@@ -74,7 +75,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private String filename = null;
     private String dirPath;
     private Button btn_send;
-    private EditText textPhoneNo;
+
     private String phoneNum = null;
     private ProgressDialog progressDialog;
     private GpsTracker gpsTracker;
@@ -85,6 +86,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int VIDEO_REQUEST_CODE = 1000;
 
+    private FloatingActionButton fab_logout, fab_home, fab_gallery;
+    private FloatingActionMenu fabMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,22 +107,46 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         }
 
 
+        Log.e("userID: ", userId);
+        Log.e("parentNum: ", parentNum);
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         senAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        btn_exit = findViewById(R.id.btn_exit);
-        btn_gallery = findViewById(R.id.btn_gallery);
-        btn_record = findViewById(R.id.btn_record);
+
+        btn_record = (Button)findViewById(R.id.btn_record);
         btn_upload = findViewById(R.id.btn_upload);
         btn_send = findViewById(R.id.btn_send);
-        btn_gallery.setOnClickListener(this);
+
         btn_record.setOnClickListener(this);
         btn_upload.setOnClickListener(this);
         btn_send.setOnClickListener(this);
-        btn_exit.setOnClickListener(this);
-        textPhoneNo = findViewById(R.id.edit_text_phone);
+
+
+
+        fabMenu = findViewById(R.id.fab_menu);
+        fab_gallery = findViewById(R.id.fab_gallery);
+        fab_home = findViewById(R.id.fab_home);
+        fab_logout = findViewById(R.id.fab_logout);
+        fab_gallery.setOnClickListener(this);
+        fab_logout.setOnClickListener(this);
+        fab_home.setOnClickListener(this);
+        fabMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if(opened){
+                    Toast.makeText(VideoActivity.this, "MENU OPEN", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(VideoActivity.this, "MENU CLOSED", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+        });
+
 
 
         progressDialog = new ProgressDialog(this);
@@ -326,7 +353,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            Log.e("userID: ", userId);
+                            Log.e("parentNum: ", parentNum);
+                            Log.e("parentNum: ", String.valueOf(parentNum.length()));
                             if(parentNum.length() == 11){
                                 phoneNum = parentNum;
                                 //과부화도 덜되고 동영상 처리는 여기서 하는게 좋다
@@ -371,6 +400,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.release();
                                 }}
                             else{
+
+
                                 Toast.makeText(VideoActivity.this, "유효하지 않은 전화번호", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -452,7 +483,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 Toast.makeText(this, "문자 메시지 전송", Toast.LENGTH_SHORT).show();
 
                 break;
-            case R.id.btn_gallery:
+            case R.id.fab_gallery:
                 Intent intent = new Intent(getApplicationContext(), VideoGallery.class);
 
                 startActivity(intent);
@@ -463,11 +494,22 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
                 break;
 
-            case R.id.btn_exit:
+            case R.id.fab_logout:
                 Intent exit_intent = new Intent(getApplicationContext(), LoginActivity.class);
                 clearPref();
+                exit_intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 startActivity(exit_intent);
                 break;
+            case R.id.fab_menu:
+                if(fabMenu.isOpened()){
+                    fabMenu.close(true);
+                }
+                break;
+            case R.id.fab_home:
+                Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                startActivity(intent1);
+
         }
 
     }
@@ -616,21 +658,21 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-            backKeyPressedTime = System.currentTimeMillis();
-           return;
-        }
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-            finish();
-            moveTaskToBack(true);						// 태스크를 백그라운드로 이동
-            finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
-            android.os.Process.killProcess(android.os.Process.myPid());	// 앱 프로세스 종료
-        }
-
-    }
+//    @Override
+//    public void onBackPressed() {
+////        super.onBackPressed();
+//        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+//            backKeyPressedTime = System.currentTimeMillis();
+//           return;
+//        }
+//        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+//            finish();
+//            moveTaskToBack(true);						// 태스크를 백그라운드로 이동
+//            finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
+//            android.os.Process.killProcess(android.os.Process.myPid());	// 앱 프로세스 종료
+//        }
+//
+//    }
 
     //    public class  UnCatchTaskService extends Service {
 //        @Nullable

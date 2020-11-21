@@ -38,7 +38,7 @@ import java.util.Date;
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
     private Button btn_login, btn_register;
-
+    private  long backKeyPressedTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +111,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+           return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+            moveTaskToBack(true);						// 태스크를 백그라운드로 이동
+            finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
+            android.os.Process.killProcess(android.os.Process.myPid());	// 앱 프로세스 종료
+        }
 
     }
 

@@ -7,9 +7,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -135,7 +137,10 @@ public class MapActivity extends AppCompatActivity
         if(UserId == null || parentNum == null) {
             UserId = getIntent().getStringExtra("UserId");
             parentNum = getIntent().getStringExtra("UserPPhone");
+            saveState();
         }
+
+
     }
 
 
@@ -253,6 +258,7 @@ public class MapActivity extends AppCompatActivity
 
                     GPSLocationRequest gpsLocationRequest
                             = new GPSLocationRequest(StartLat, StartLong, DestinationLat, DestinationLong, UserId, responseListener);
+                    Log.e("GLSLocation userid: ", UserId );
                     RequestQueue queue = Volley.newRequestQueue( MapActivity.this );
                     queue.add( gpsLocationRequest );
                 }
@@ -316,8 +322,21 @@ public class MapActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        saveState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restoreState();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
+        restoreState();
 
         Log.d(TAG, "onStart");
 
@@ -555,4 +574,25 @@ public class MapActivity extends AppCompatActivity
                 break;
         }
     }
+
+
+    protected void saveState(){
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("id", UserId);
+        editor.putString("num", parentNum);
+        editor.commit();
+
+
+    }
+    protected void restoreState(){
+        SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        if((pref!=null) && (pref.contains("id"))){
+            UserId = pref.getString("id", "");
+        }
+        if((pref!=null) && (pref.contains("num"))){
+            parentNum = pref.getString("num", "");
+        }
+    }
+
 }

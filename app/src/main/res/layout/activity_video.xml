@@ -11,11 +11,13 @@
         android:layout_height="wrap_content"
         >
         <Button
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_gallery"
             android:text="갤러리"/>
         <Button
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_exit"
@@ -28,25 +30,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_record"
-            android:text="녹화 + 업로드 + 메시지 전송"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_upload"
             android:visibility="gone"
             android:text="파일 업로드"/>
-        <EditText
-            android:visibility="gone"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:hint="전화번호 입력"
-            android:inputType="phone"
-            android:id="@+id/edit_text_phone"
-            />
+
         <Button
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -56,11 +47,96 @@
 
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#FEE92E"
+        android:backgroundTint="#FFE57F"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="나의 블랙박스"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <SurfaceView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/surfaceView"/>
+        android:id="@+id/surfaceView"
 
+        />
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="-3dp"
+            app:fab_colorNormal="#DA4336"
+            app:fab_colorPressed="#E75043"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_shadowColor="#66000000"
+            app:fab_showShadow="true"
+            app:menu_backgroundColor="#ccffffff"
+            app:menu_fab_label="MENU"
+            app:menu_labels_colorNormal="#333333"
+            app:menu_labels_colorPressed="#444444"
+            app:menu_labels_colorRipple="#66FFFFFF"
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_maxLines="-1"
+            app:menu_labels_position="left"
+            app:menu_labels_showShadow="true"
+
+            app:menu_labels_singleLine="true"
+            app:menu_openDirection="down">
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:fab_label="LOG OUT"
+                app:fab_size="mini" />
+
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_gallery"
+                app:fab_label="GALLERY"
+                app:fab_size="mini" />
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:fab_label="HOME"
+                app:fab_size="mini" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+
+    </RelativeLayout>
+
+    <Button
+
+        android:id="@+id/btn_record"
+        style="@style/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+
+        android:text="RECORD" />
 
 
 </LinearLayout>
