@@ -60,8 +60,11 @@ class MyGalleryAdapter extends BaseAdapter {
         Bitmap bmThumbnail;
         bmThumbnail = ThumbnailUtils.createVideoThumbnail(context.getFilesDir().getAbsolutePath() + "/blackbox/" + videoTitle[position],
                 MediaStore.Images.Thumbnails.MINI_KIND);
-
+        if(bmThumbnail !=null) {
+            bmThumbnail = Bitmap.createBitmap(bmThumbnail, 0, bmThumbnail.getHeight() / 5, bmThumbnail.getWidth(), bmThumbnail.getHeight() * 3 / 5);
+        }
         ImageView imageThumbnail = (ImageView)convertView.findViewById(R.id.gallery_imageView);
+
         TextView textView = convertView.findViewById(R.id.galleryTextView);
         imageThumbnail.setImageBitmap(bmThumbnail);
         textView.setText(videoTitle[position]);

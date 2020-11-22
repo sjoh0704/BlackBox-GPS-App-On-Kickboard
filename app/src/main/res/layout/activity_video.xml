@@ -2,65 +2,151 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="bold"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".VideoActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btn_gallery"
-            android:text="갤러리"/>
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="갤러리"
+            android:visibility="gone" />
+
+        <Button
             android:id="@+id/btn_exit"
-            android:text="로그아웃"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그아웃"
+            android:visibility="gone" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_record"
-            android:text="녹화 + 업로드 + 메시지 전송"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btn_upload"
-            android:visibility="gone"
-            android:text="파일 업로드"/>
-        <EditText
-            android:visibility="gone"
-            android:layout_width="170dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="전화번호 입력"
-            android:inputType="phone"
-            android:id="@+id/edit_text_phone"
-            />
+            android:text="파일 업로드"
+            android:visibility="gone" />
+
         <Button
-            android:visibility="gone"
+            android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="전송"
-            android:id="@+id/btn_send"/>
+            android:visibility="gone" />
 
 
     </LinearLayout>
-    <SurfaceView
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#FEE92E"
+        android:backgroundTint="#FFE57F"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="Blackbox"
+        android:textColor="#FFFFFF"
+
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/surfaceView"/>
+        android:layout_weight="8">
 
+        <SurfaceView
+
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="-3dp"
+            app:fab_colorNormal="#FF6E40"
+            app:fab_colorPressed="#FF6E40"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_shadowColor="#66000000"
+            app:fab_showShadow="true"
+            app:menu_backgroundColor="#ccffffff"
+            app:menu_fab_label="MENU"
+            app:menu_labels_colorNormal="#333333"
+            app:menu_labels_colorPressed="#444444"
+            app:menu_labels_colorRipple="#66FFFFFF"
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_maxLines="-1"
+            app:menu_labels_position="left"
+            app:menu_labels_showShadow="true"
+
+            app:menu_labels_singleLine="true"
+            app:menu_openDirection="down">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:fab_label="LOG OUT"
+                app:fab_size="mini" />
+
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_gallery"
+                app:fab_label="GALLERY"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:fab_label="HOME"
+                app:fab_size="mini" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+        <Button
+            android:id="@+id/btn_record"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10sp"
+            android:background="@drawable/record1"
+            android:fontFamily="monospace"
+            android:textColor="#F6F6F6"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
 
 
 </LinearLayout>

@@ -50,8 +50,9 @@
                 <TextView
                     style="@style/headerTextPrimaryHome"
                     android:layout_marginTop="30sp"
-                    android:fontFamily="monospace"
+                    android:fontFamily="casual"
                     android:text="Sooung Sooung"
+                    android:textColor="#FFAB40"
                     android:textSize="30sp" />
 
                 <LinearLayout
