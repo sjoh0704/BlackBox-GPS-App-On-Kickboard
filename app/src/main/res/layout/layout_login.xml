@@ -53,7 +53,7 @@
             android:id="@+id/btn_login"
             style="@style/loginButton"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginTop="40sp"
             android:text="Login" />
 
         <Button
@@ -61,14 +61,8 @@
             style="@style/loginButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginBottom="20sp"
             android:text="Sign Up" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="40dp"
-            android:fontFamily="casual"
-            android:text="Sign In!!" />
 
     </LinearLayout>
 

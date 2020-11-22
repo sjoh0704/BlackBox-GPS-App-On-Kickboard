@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
 
     String userId, parentNum;
     TextView UserIdView;
-    Button btn_gallery, btn_record, btn_end;
+    Button btn_gallery, btn_record, btn_end, btn_content;
     private long backKeyPressedTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,16 @@ public class HomeActivity extends AppCompatActivity {
                 exit_intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 clearPref();
                 startActivity(exit_intent);
+
+            }
+        });
+
+        btn_content = findViewById(R.id.btn_content);
+        btn_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://map-path.paas-ta.org/info3.jsp"));
+                startActivity(intent);
 
             }
         });
