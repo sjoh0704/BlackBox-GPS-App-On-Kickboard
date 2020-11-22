@@ -439,7 +439,8 @@ public class MapActivity extends AppCompatActivity
         currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
-        mMap.moveCamera(cameraUpdate);
+        //mMap.moveCamera(cameraUpdate);
+        mMap.animateCamera(cameraUpdate);
     }
 
     public void setDestinationLocation(LatLng location, String markerTitle, String markerSnippet) {
@@ -449,6 +450,7 @@ public class MapActivity extends AppCompatActivity
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(destinationLatLng);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
@@ -456,7 +458,8 @@ public class MapActivity extends AppCompatActivity
         destinationMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(destinationLatLng);
-        mMap.moveCamera(cameraUpdate);
+        //mMap.moveCamera(cameraUpdate);
+        mMap.animateCamera(cameraUpdate);
     }
 
 
