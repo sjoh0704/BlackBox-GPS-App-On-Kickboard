@@ -25,6 +25,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -64,7 +65,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private Sensor senAccelerometer;
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
-    private static final int SHAKE_THRESHOLD = 5500;
+    private int SHAKE_THRESHOLD = 7000;
+    private int COLLISION_THRESHOLD = 25000;
 
     private Camera camera;
     private MediaRecorder mediaRecorder;
@@ -111,7 +113,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         Log.e("parentNum: ", parentNum);
 
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-        senAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        senAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 
@@ -161,19 +163,28 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor mySensor = sensorEvent.sensor;
-        if(mySensor.getType() == Sensor.TYPE_ACCELEROMETER){
+        if(mySensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION){
             float x = sensorEvent.values[0];
             float y = sensorEvent.values[1];
             float z = sensorEvent.values[2];
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Log.d("x, y, z: ", x + ", " + y + ", " + z);
+//                }
+//            },500);
 
             long curTime = System.currentTimeMillis(); // 현재시간
             if((curTime - lastUpdate) > 100) {
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
-
+                double collision_detect = Math.sqrt( Math.pow(z - last_z,2)*100 + Math.pow(x-last_x,2)*10+  Math.pow(y-last_y,2)*10)/ diffTime * 10000;
                 float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+
 //                Log.e("Speed: ", String.valueOf(speed));
-                if (speed > SHAKE_THRESHOLD) {
+//
+//                Log.e("collision: ", String.valueOf(collision_detect));
+                if (speed > SHAKE_THRESHOLD || collision_detect >COLLISION_THRESHOLD) {
                     //지정된 수치이상 흔들림이 있으면 실행
                     Log.e("Speed", "흔들림 감지");
                     if(recording){
@@ -658,49 +669,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-//    @Override
-//    public void onBackPressed() {
-////        super.onBackPressed();
-//        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-//            backKeyPressedTime = System.currentTimeMillis();
-//           return;
-//        }
-//        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-//            finish();
-//            moveTaskToBack(true);						// 태스크를 백그라운드로 이동
-//            finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
-//            android.os.Process.killProcess(android.os.Process.myPid());	// 앱 프로세스 종료
-//        }
-//
-//    }
 
-    //    public class  UnCatchTaskService extends Service {
-//        @Nullable
-//        @Override
-//        public IBinder onBind(Intent intent) {
-//            return null;
-//        }
-//
-//        @Override
-//        public void onTaskRemoved(Intent rootIntent) {
-//
-//
-//            Log.e("Error","onTaskRemoved - " + rootIntent);
-//            if(recording){
-//                mediaRecorder.stop();
-//                mediaRecorder.release();
-//                camera.lock();
-//                recording  = false;
-//
-//                Toast.makeText(MainActivity.this, "파이어베이스에 자동업로드", Toast.LENGTH_SHORT).show();
-//
-//                btn_upload.callOnClick();
-//            }
-//
-//
-//            stopSelf(); //서비스도 같이 종료
-//
-//        }
+
+
 
     protected void saveState(){
         SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
