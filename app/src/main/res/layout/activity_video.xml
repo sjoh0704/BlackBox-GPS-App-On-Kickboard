@@ -55,14 +55,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#FEE92E"
-        android:backgroundTint="#FFE57F"
+        android:background="#fecb2f"
+        android:backgroundTint="#fecb2f"
         android:fontFamily="monospace"
         android:gravity="center"
         android:padding="20dp"
         android:text="Blackbox"
-        android:textColor="#FFFFFF"
 
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
 
