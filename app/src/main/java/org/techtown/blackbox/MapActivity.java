@@ -417,9 +417,9 @@ public class MapActivity extends AppCompatActivity
 
         currentMarker = mMap.addMarker(markerOptions);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
-        mMap.moveCamera(cameraUpdate);
-
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLatLng, 15);
+        //mMap.moveCamera(cameraUpdate);
+        mMap.animateCamera(cameraUpdate);
     }
 
     public void setDefaultLocation() {
@@ -457,7 +457,7 @@ public class MapActivity extends AppCompatActivity
 
         destinationMarker = mMap.addMarker(markerOptions);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(destinationLatLng);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(destinationLatLng, 15);
         //mMap.moveCamera(cameraUpdate);
         mMap.animateCamera(cameraUpdate);
     }
