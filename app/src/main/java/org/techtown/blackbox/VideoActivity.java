@@ -11,6 +11,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -48,6 +50,9 @@ import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.kakao.usermgmt.response.model.User;
+import com.klinker.android.send_message.Message;
+import com.klinker.android.send_message.Settings;
+import com.klinker.android.send_message.Transaction;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +72,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private float last_x, last_y, last_z;
     private int SHAKE_THRESHOLD = 7000;
     private int COLLISION_THRESHOLD = 25000;
+    private boolean collision;
 
     private Camera camera;
     private MediaRecorder mediaRecorder;
@@ -112,6 +118,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         Log.e("userID: ", userId);
         Log.e("parentNum: ", parentNum);
 
+        collision = false;
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         senAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -187,7 +194,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 if (speed > SHAKE_THRESHOLD || collision_detect >COLLISION_THRESHOLD) {
                     //지정된 수치이상 흔들림이 있으면 실행
                     Log.e("Speed", "흔들림 감지");
+
                     if(recording){
+                        collision = true;
                         mediaRecorder.stop();
                         mediaRecorder.release();
                         camera.lock();
@@ -258,7 +267,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 .setPermissionListener(permission)
                 .setRationaleMessage("필요한 권한을 허용해주세요.")
                 .setDeniedMessage("권한이 거부되었습니다.")
-                .setPermissions(Manifest.permission.CAMERA,  Manifest.permission.RECORD_AUDIO, Manifest.permission.SEND_SMS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION )
+                .setPermissions(Manifest.permission.CAMERA,  Manifest.permission.RECORD_AUDIO, Manifest.permission.SEND_SMS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_SMS )
                 .check();
     }
 
@@ -488,8 +497,25 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 double longtitude = gpsTracker.getLongitude();
                 String address = getCurrentAddress(latitude, longtitude);
 //                String location = "\n위도: " + latitude + "\n경도: " + longtitude + "\n";
-                String URL = "\nhttp://map-path.paas-ta.org/?id=" + userId;
-                sendSms(phoneNum, address + URL);
+                String URL = "http://map-path.paas-ta.org/?id=" + userId;
+                String msg;
+                if(collision){
+                    msg = "[슝슝] 현재 귀하의 자녀에게 사고가 발생했습니다.\n" +
+                            "자녀 위치는 "+address.trim()+" 입니다.\n" +
+                            "링크를 통해 자녀의 경로를 참고해주세요.\n" + URL  ;
+
+                collision= false;
+                }
+                else{
+                    msg = "[슝슝] 현재 귀하의 자녀가 무사히 잘 도착했습니다.\n" +
+                "자녀 위치는 "+address.trim()+" 입니다.\n" +
+                "링크를 통해 자녀의 경로를 참고해주세요.\n" + URL  ;}
+
+
+
+
+                sendMMS(phoneNum, msg );
+//                sendSms(phoneNum, msg + URL);
                 phoneNum = null;
                 Toast.makeText(this, "문자 메시지 전송", Toast.LENGTH_SHORT).show();
 
@@ -508,7 +534,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
             case R.id.fab_logout:
                 Intent exit_intent = new Intent(getApplicationContext(), LoginActivity.class);
                 clearPref();
-                exit_intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                exit_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(exit_intent);
                 break;
             case R.id.fab_menu:
@@ -518,7 +544,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 break;
             case R.id.fab_home:
                 Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
-                intent1.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent1);
 
         }
@@ -700,5 +726,33 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         editor.commit();
     }
 
+    public void sendMMS(String phone,String text) {
 
-}
+        Log.d(TAG, "sendMMS(Method) : " + "start");
+
+//        String subject = "제목";
+
+
+        // 예시 (절대경로) : String imagePath = "/storage/emulated/0/Pictures/Screenshots/Screenshot_20190312-181007.png";
+//        String imagePath = "이미지 경로";
+
+//        Log.d(TAG, "subject : " + subject);
+        Log.d(TAG, "text : " + text);
+//        Log.d(TAG, "imagePath : " + imagePath);
+
+        Settings settings = new Settings();
+        settings.setUseSystemSending(true);
+
+        // TODO : 이 Transaction 클래스를 위에 링크에서 다운받아서 써야함
+        Transaction transaction = new Transaction(this, settings);
+
+        // 제목이 있을경우
+//        Message message = new Message(text, phone, subject);
+
+        // 제목이 없을경우
+         Message message = new Message(text, phone);
+
+        long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
+
+        transaction.sendNewMessage(message, id);
+}}

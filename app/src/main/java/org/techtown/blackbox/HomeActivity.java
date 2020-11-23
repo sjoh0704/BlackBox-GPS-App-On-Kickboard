@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent exit_intent = new Intent(getApplicationContext(), LoginActivity.class);
-                exit_intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                exit_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 clearPref();
                 startActivity(exit_intent);
 
@@ -122,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            clearPref();
             finish();
             moveTaskToBack(true);						// 태스크를 백그라운드로 이동
             finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
