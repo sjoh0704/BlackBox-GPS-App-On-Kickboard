@@ -139,21 +139,17 @@ public class CertiActivity extends AppCompatActivity {
                     if(result.getKakaoAccount().needsScopeAccountEmail()) {
                         needsScopeAutority = needsScopeAutority + "이메일";
                     }
-                    if(result.getKakaoAccount().needsScopeGender()) {
-                        needsScopeAutority = needsScopeAutority + ", 성별";
-                    }
                     if(result.getKakaoAccount().needsScopeAgeRange()) {
                         needsScopeAutority = needsScopeAutority + ", 연령대";
                     }
-                    if(result.getKakaoAccount().needsScopeBirthday()) {
-                        needsScopeAutority = needsScopeAutority + ", 생일";
-                    }
-
                     if(needsScopeAutority.length() != 0) { // 정보 제공이 허용되지 않은 항목이 있다면 -> 허용되지 않은 항목을 안내하고 회원탈퇴 처리
                         if(needsScopeAutority.charAt(0) == ',') {
                             needsScopeAutority = needsScopeAutority.substring(2);
                         }
-                        Toast.makeText(getApplicationContext(), needsScopeAutority+"에 대한 권한이 허용되지 않았습니다. 개인정보 제공에 동의해주세요.", Toast.LENGTH_SHORT).show(); // 개인정보 제공에 동의해달라는 Toast 메세지 띄움
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
+                        dialog = builder.setMessage(needsScopeAutority+"에 대한 권한이 허용되지 않았습니다. \n개인정보 제공에 동의해주세요.").setNegativeButton("확인", null).create();
+                        dialog.show();
+                        //Toast.makeText(getApplicationContext(), needsScopeAutority+"에 대한 권한이 허용되지 않았습니다. 개인정보 제공에 동의해주세요.", Toast.LENGTH_SHORT).show(); // 개인정보 제공에 동의해달라는 Toast 메세지 띄움
 
                         // 회원탈퇴 처리
                         UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {
@@ -190,8 +186,6 @@ public class CertiActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                         //Intent intent = new Intent(CertiActivity.this, RegisterActivity.class);
                         intent.putExtra("name", result.getNickname());
-                        intent.putExtra("profile", result.getProfileImagePath());
-//                        intent.putExtra("btn_num", btn_num);
 
                         if (result.getKakaoAccount().hasAgeRange() == OptionalBoolean.TRUE)
                             intent.putExtra("ageRange", result.getKakaoAccount().getAgeRange().getValue());

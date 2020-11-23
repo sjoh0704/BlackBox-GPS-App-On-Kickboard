@@ -10,7 +10,7 @@
         android:color="#fecb2f"
         />
     <size
-        android:width="150dp"
+        android:width="100dp"
         android:height="30dp"
         />
 </shape>

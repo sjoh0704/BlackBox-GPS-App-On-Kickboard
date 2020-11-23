@@ -85,11 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             boolean success = jsonObject.getBoolean("success");
                             if (success) { // 로그인에 성공한 경우
+
                                 String UserId = jsonObject.getString("UserId");
                                 String UserPwd = jsonObject.getString("UserPwd");
                                 String UserPPhone = jsonObject.getString("UserPPhone");
-
-                                Toast.makeText(getApplicationContext(),"로그인에 성공하였습니다.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show();
                                 //Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
 
                                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -97,13 +97,14 @@ public class LoginActivity extends AppCompatActivity {
                                 intent.putExtra("UserPPhone", UserPPhone);
                                 intent.putExtra("UserId", UserId);
                                 intent.putExtra("UserPwd", UserPwd);
-
                                 startActivity(intent);
+
+
                             } else { // 로그인에 실패한 경우
+                                //Toast.makeText(getApplicationContext(),"아이디와 비밀번호를 확인하세요.",Toast.LENGTH_SHORT).show();
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 dialog = builder.setMessage("아이디와 비밀번호를 확인하세요").setPositiveButton("확인", null).create();
                                 dialog.show();
-                                return;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

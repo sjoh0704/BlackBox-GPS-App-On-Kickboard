@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://map-path.paas-ta.org/info3.jsp"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://map-path.paas-ta.org/about.jsp"));
                 startActivity(intent);
 
             }
