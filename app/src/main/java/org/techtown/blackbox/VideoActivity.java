@@ -145,10 +145,10 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
             @Override
             public void onMenuToggle(boolean opened) {
                 if(opened){
-                    Toast.makeText(VideoActivity.this, "MENU OPEN", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(VideoActivity.this, "MENU OPEN", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(VideoActivity.this, "MENU CLOSED", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(VideoActivity.this, "MENU CLOSED", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -159,7 +159,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please waiting...");
+        progressDialog.setMessage("업로드 중입니다.\n 잠시만 기다려주세요...");
         progressDialog.setCancelable(false);
         progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
 
@@ -202,7 +202,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                         camera.lock();
                         recording  = false;
 
-                        Toast.makeText(this, "firebase에 업로드합니다.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this, "업로드중입니다.", Toast.LENGTH_SHORT).show();
 
                         btn_upload.callOnClick();
                         btn_send.callOnClick();
@@ -280,7 +280,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
             camera.lock();
             recording  = false;
 
-            Toast.makeText(this, "firebase에 업로드합니다.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "업로드중입니다.", Toast.LENGTH_SHORT).show();
 
             btn_upload.callOnClick();
             btn_send.callOnClick();
@@ -361,7 +361,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                     camera.lock();
                     recording  = false;
 
-                    Toast.makeText(VideoActivity.this, "firebase에 업로드합니다.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(VideoActivity.this, "업로드중입니다.", Toast.LENGTH_SHORT).show();
 
                     btn_upload.callOnClick();
                     btn_send.callOnClick();
@@ -379,7 +379,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                             if(parentNum.length() == 11){
                                 phoneNum = parentNum;
                                 //과부화도 덜되고 동영상 처리는 여기서 하는게 좋다
-                                Toast.makeText(VideoActivity.this, "녹화가 시작되었습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VideoActivity.this, "녹화를 시작합니다!", Toast.LENGTH_SHORT).show();
                                 try {
 
 
@@ -465,14 +465,14 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        Toast.makeText(VideoActivity.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(VideoActivity.this, "업로드 성", Toast.LENGTH_SHORT).show();
                                         filename = null;
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(VideoActivity.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(VideoActivity.this, "Uploading fails", Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
@@ -486,7 +486,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
                 }
                 else{
-                    Toast.makeText(VideoActivity.this, "파일 없음", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VideoActivity.this, "업로드할 파일이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -517,7 +517,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 sendMMS(phoneNum, msg );
 //                sendSms(phoneNum, msg + URL);
                 phoneNum = null;
-                Toast.makeText(this, "문자 메시지 전송", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "메시지 자동 전송", Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.fab_gallery:
@@ -567,7 +567,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
             camera.lock();
             recording  = false;
 
-            Toast.makeText(this, "firebase에 업로드합니다.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "업로드중입니다.", Toast.LENGTH_SHORT).show();
 
             btn_upload.callOnClick();
             btn_send.callOnClick();
