@@ -93,7 +93,11 @@
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquareroundr"
+            android:gravity="right"
+            android:padding="10sp"
+            android:text="미성년자 가입시 \n보호자가 본인인증" />
 
 
     </LinearLayout>
