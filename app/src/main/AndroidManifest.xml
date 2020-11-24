@@ -34,12 +34,19 @@
             android:value="AIzaSyCVD6CMI31uykARdm1R8J38TBoZH5ckFkQ" />
 
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN"/>-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity android:name=".MapActivity"/>
