@@ -1,5 +1,6 @@
 package org.techtown.blackbox;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,7 +72,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private int SHAKE_THRESHOLD = 7000;
-    private int COLLISION_THRESHOLD = 25000;
+    private int COLLISION_THRESHOLD = 30000;
     private boolean collision;
 
     private Camera camera;
@@ -166,6 +167,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         // 갖고 있던 상태지우고 다시 쓰기
 
         saveState();
+
+
+
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -411,6 +415,13 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     catch (Exception e) { e.printStackTrace(); Log.d("MediaScan", "ERROR" + e); }
                                     finally { }
 //                                galleryAddPic();
+                                    gpsTracker = new GpsTracker(VideoActivity.this);
+                                    double latitude = gpsTracker.getLatitude();
+                                    double longtitude = gpsTracker.getLongitude();
+                                    String address = getCurrentAddress(latitude, longtitude);
+
+                                    String start_msg = "[슝슝] 등록된 사용자가 서비스를 이용합니다.\n현재 사용자의 위치는 "+address.trim()+" 입니다.";
+                                    sendMMS(phoneNum, start_msg);
 
 
 
@@ -500,16 +511,16 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 String URL = "http://map-path.paas-ta.org/?id=" + userId;
                 String msg;
                 if(collision){
-                    msg = "[슝슝] 현재 귀하의 자녀에게 사고가 발생했습니다.\n" +
-                            "자녀 위치는 "+address.trim()+" 입니다.\n" +
-                            "링크를 통해 자녀의 경로를 참고해주세요.\n" + URL  ;
+                    msg = "[슝슝] 현재 사용자에게 사고가 발생하였습니다.\n" +
+                            "현 사용자 위치는 "+address.trim()+" 입니다.\n" +
+                            "링크를 통해 경로를 확인할 수 있습니다.\n" + URL  ;
 
                 collision= false;
                 }
                 else{
-                    msg = "[슝슝] 현재 귀하의 자녀가 무사히 잘 도착했습니다.\n" +
-                "자녀 위치는 "+address.trim()+" 입니다.\n" +
-                "링크를 통해 자녀의 경로를 참고해주세요.\n" + URL  ;}
+                    msg = "[슝슝] 사용자가 안전하게 서비스를 이용하였습니다.\n" +
+                "사용자의 위치는 "+address.trim()+" 입니다.\n" +
+                "링크를 통해 경로를 확인할 수 있습니다.\n" + URL  ;}
 
 
 
