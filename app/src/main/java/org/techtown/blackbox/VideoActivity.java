@@ -395,9 +395,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                                     mediaRecorder.setOrientationHint(90);
 
-                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmm");
                                     Date now = new Date();
-                                    filename = formatter.format(now) + ".mp4";
+                                    filename =  userId + "_"+ formatter.format(now) + ".mp4";
 
 
 
@@ -451,7 +451,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
                         Uri file = Uri.fromFile(new File(dirPath +"/"+ filename));
 
-                        StorageReference storageRef = storage.getReferenceFromUrl("gs://sodium-inverter-294315.appspot.com").child("BlackBox_" + userId +"/" + filename);
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://sodium-inverter-294315.appspot.com").child("Ssoong_Ssoong/" + filename);
                         //storage url 적는란
 
 
