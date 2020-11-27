@@ -2,7 +2,9 @@ package org.techtown.blackbox;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.SurfaceControl;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+
+import com.klinker.android.send_message.Message;
+import com.klinker.android.send_message.Settings;
+import com.klinker.android.send_message.Transaction;
+
 import com.kakao.network.ApiErrorCode;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
@@ -24,15 +31,19 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText join_id, join_password, join_name, join_pwck;
-    private EditText join_phone, join_pname, join_pphone;
-    private Button join_button, check_button;
+    private EditText join_phone, join_pname, join_pphone, check_phone, check_p_phone;
+    private Button join_button, check_button, send_number, send_p_number, check_number, check_p_number;
     private AlertDialog dialog;
     private boolean validate = false;
+    private boolean valiNum = false;
+    private boolean valiPNum = false;
     long now = System.currentTimeMillis();
+    String certi;
 
     String strAgeRange, strName, strPName, nameNum;
 
@@ -42,13 +53,16 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // 아이디 값 찾아주기
-        join_id = findViewById( R.id.join_id );
-        join_password = findViewById( R.id.join_password );
-        join_name = findViewById( R.id.join_name );
+        join_id = findViewById(R.id.join_id);
+        join_password = findViewById(R.id.join_password);
+        join_name = findViewById(R.id.join_name);
         join_pwck = findViewById(R.id.join_pwck);
         join_phone = findViewById(R.id.join_phone);
         join_pname = findViewById(R.id.join_pname);
         join_pphone = findViewById(R.id.join_pphone);
+
+        check_phone = findViewById(R.id.check_phone);
+        check_p_phone =findViewById(R.id.check_p_phone);
 
         //데이터 받기
         Intent intent = getIntent();
@@ -65,13 +79,13 @@ public class RegisterActivity extends AppCompatActivity {
 //           // join_name.setEnabled(false);
 //        }
 
-        if (strAgeRange.equals("0~9") && strAgeRange.equals("10~19")) {
+        if (strAgeRange.equals("0~9") || strAgeRange.equals("10~19")) {
             UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     int result = errorResult.getErrorCode();
 
-                    if(result == ApiErrorCode.CLIENT_ERROR_CODE) {
+                    if (result == ApiErrorCode.CLIENT_ERROR_CODE) {
                         Toast.makeText(getApplicationContext(), "네트워크 연결이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "회원탈퇴에 실패했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
@@ -171,9 +185,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 dialog.show();
                                 join_id.setEnabled(false); //아이디값 고정
                                 validate = true; //검증 완료
-                                check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                            }
-                            else {
+//                                check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                            } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                                 dialog = builder.setMessage("이미 존재하는 아이디입니다.").setNegativeButton("확인", null).create();
                                 dialog.show();
@@ -189,9 +202,70 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //본인 핸드폰 확인 인증
+        send_number = findViewById(R.id.send_button);
+        send_number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = join_phone.getText().toString();
+                if (phone.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialog = builder.setMessage("번호를 입력하세요.").setPositiveButton("확인", null).create();
+                    dialog.show();
+                    return;
+                }
+
+                else {
+                    final String mms;
+                    certi = excuteGenerate();
+                    mms = "[슝슝]에서 보낸 인증번호\n"
+                            + "[" + certi + "]" + "입니다.";
+                    Log.d("mms", mms);
+                    Log.d("mms", phone);
+                    sendMMS(phone, mms);
+                }
+            }
+        });
+
+        check_number =findViewById(R.id.check_num_button);
+        check_number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String checkNum = check_phone.getText().toString();
+                if (valiNum) {
+                    return; //검증 완료
+                }
+
+                if (checkNum.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialog = builder.setMessage("인증 번호를 입력하세요.").setPositiveButton("확인", null).create();
+                    dialog.show();
+                    return;
+                }
+                else {
+                    final String mms;
+                    if (certi.equals(checkNum)) {
+                        valiNum = true; //검증 완료
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("인증되었습니다.").setPositiveButton("확인", null).create();
+                        check_phone.setEnabled(false);
+                        dialog.show();
+                        return;
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("인증 번호를 확인해주세요.").setPositiveButton("확인", null).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+            }
+        });
+
         //회원가입 버튼 클릭 시 수행
-        join_button = findViewById( R.id.join_button);
-        join_button.setOnClickListener( new View.OnClickListener() {
+        join_button = findViewById(R.id.join_button);
+        join_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String UserId = join_id.getText().toString();
@@ -218,7 +292,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 //한 칸이라도 입력 안했을 경우
-                if (UserId.equals("") || UserPwd.equals("") || UserName.equals("") || UserPhone.equals("")|| UserPName.equals("")|| UserPPhone.equals("")) {
+                if (UserId.equals("") || UserPwd.equals("") || UserName.equals("") || UserPhone.equals("") || UserPName.equals("") || UserPPhone.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                     dialog = builder.setMessage("모두 입력해주세요.").setNegativeButton("확인", null).create();
                     dialog.show();
@@ -238,11 +312,11 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         try {
-                            JSONObject jsonObject = new JSONObject( response );
-                            boolean success = jsonObject.getBoolean( "success" );
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success");
 
                             //회원가입 성공시
-                            if(UserPwd.equals(PassCk)) {
+                            if (UserPwd.equals(PassCk)) {
                                 if (success) {
 
                                     Toast.makeText(getApplicationContext(), String.format("%s님 가입을 환영합니다.", UserName), Toast.LENGTH_SHORT).show();
@@ -269,14 +343,82 @@ public class RegisterActivity extends AppCompatActivity {
                 };
 
                 //서버로 Volley를 이용해서 요청
-                RegisterRequest registerRequest = new RegisterRequest(UserDate ,UserId, UserPwd, UserName, UserPhone, UserPName, UserPPhone, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(UserDate, UserId, UserPwd, UserName, UserPhone, UserPName, UserPPhone, responseListener);
                 GpsIdRequest gpsidRequest = new GpsIdRequest(UserId, responseListener);
-                RequestQueue queue = Volley.newRequestQueue( RegisterActivity.this );
-                queue.add( registerRequest );
-                queue.add( gpsidRequest );
+                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                queue.add(registerRequest);
+                queue.add(gpsidRequest);
 
             }
         });
 
     }
+
+    public void sendMMS(String phone, String text) {
+
+////        //Log.d(TAG, "sendMMS(Method) : " + "start");
+//
+////        String subject = "제목";
+//
+//
+//        // 예시 (절대경로) : String imagePath = "/storage/emulated/0/Pictures/Screenshots/Screenshot_20190312-181007.png";
+////        String imagePath = "이미지 경로";
+//
+////        Log.d(TAG, "subject : " + subject);
+//        //Log.d(TAG, "text : " + text);
+////        Log.d(TAG, "imagePath : " + imagePath);
+//
+//        Settings settings = new Settings();
+//        settings.setUseSystemSending(true);
+//
+//        // TODO : 이 Transaction 클래스를 위에 링크에서 다운받아서 써야함
+//        Transaction transaction = new Transaction(this, settings);
+//
+//        // 제목이 있을경우
+////        Message message = new Message(text, phone, subject);
+//
+//        // 제목이 없을경우
+//        Message message = new Message(text, phone);
+//
+//        long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
+//
+//        transaction.sendNewMessage(message, id);
+
+        try {
+            //전송
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phone, null, text, null, null);
+            Toast.makeText(getApplicationContext(), "전송 완료!", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "SMS faild, please try again later!", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    //인증번호 뽑기
+    private int certCharLength = 6;
+    private final char[] characterTable = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+
+    public String excuteGenerate() {
+        Random random = new Random(System.currentTimeMillis());
+        int tablelength = characterTable.length;
+        StringBuffer buf = new StringBuffer();
+
+        for(int i = 0; i < certCharLength; i++) {
+            buf.append(characterTable[random.nextInt(tablelength)]);
+        }
+
+        return buf.toString();
+    }
+
+    public int getCertCharLength() {
+        return certCharLength;
+    }
+
+    public void setCertCharLength(int certCharLength) {
+        this.certCharLength = certCharLength;
+    }
+
 }

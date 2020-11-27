@@ -52,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         btn_register = findViewById(R.id.btn_register);
         long now = System.currentTimeMillis();
 
+
+        byte[] sha1 = {
+                (byte)0x84, (byte)0x38, (byte)0xD5, 0x01, 0x5E, 0x55, (byte)0xD6, 0x18, 0x14, (byte)0xAB, (byte)0xAB, (byte)0xCB, (byte)0x7F, (byte)0x64, 0x2F, (byte)0x83, (byte)0x42, (byte)0x54, (byte)0x47, (byte)0x5C, (byte)0x58
+        };
+        Log.d("keyHash: " , Base64.encodeToString(sha1, Base64.NO_WRAP));
         getHashKey();
 
         // 회원가입 버튼을 클릭 시 수행

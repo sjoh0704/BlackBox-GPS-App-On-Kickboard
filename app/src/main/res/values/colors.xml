@@ -14,9 +14,9 @@
 
     <!--colors for modern ui-->
     <color name="whiteTextColor">#fff</color>
-    <color name="primaryTextColor">#EFD525</color>
+    <color name="primaryTextColor">#4784ea</color>
     <color name="loginBkColor">#fff</color>
-    <color name="loginColor">#EFD525</color>
+    <color name="loginColor">#4784ea</color>
 
     <!--colros for card-->
     <color name="whiteCardColor">#fff</color>

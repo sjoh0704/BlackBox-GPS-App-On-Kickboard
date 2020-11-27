@@ -6,8 +6,6 @@
     app:cardCornerRadius="@dimen/loginCardRadius"
     android:elevation="5dp"
     android:layout_gravity="center"
-    android:layout_marginTop="@dimen/loginViewsMargin"
-    android:layout_marginBottom="@dimen/loginViewsMargin"
     android:background="@color/whiteCardColor">
 
     <LinearLayout
@@ -58,15 +56,50 @@
             app:layout_constraintEnd_toEndOf="@+id/join_phone" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/join_phone"
                 style="@style/modifiedEditText"
-                android:inputType="text"
+                android:inputType="textPhonetic"
                 android:maxLines="1"
                 android:hint="Phone Number"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/send_button"
+            style="@style/loginButton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="-40dp"
+            android:text="인증"
+            app:layout_constraintBaseline_toBaselineOf="@+id/join_id"
+            app:layout_constraintEnd_toEndOf="@+id/join_phone" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/check_phone"
+                style="@style/modifiedEditText"
+                android:inputType="text"
+                android:maxLines="1"
+                android:hint="Number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/check_num_button"
+            style="@style/loginButton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="-40dp"
+            android:text="확인"
+            app:layout_constraintBaseline_toBaselineOf="@+id/join_id"
+            app:layout_constraintEnd_toEndOf="@+id/join_phone" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/parent"
@@ -102,21 +135,57 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
-            android:layout_marginTop="@dimen/signup_text_margin_top"
-            android:layout_marginBottom="20dp">
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/join_pphone"
                 style="@style/modifiedEditText"
                 android:hint="Parent Phone Number"
                 android:maxLines="1"
-                android:inputType="text"/>
+                android:inputType="textPhonetic"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/send_p_button"
+            style="@style/loginButton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="-40dp"
+            android:text="인증"
+            app:layout_constraintBaseline_toBaselineOf="@+id/join_id"
+            app:layout_constraintEnd_toEndOf="@+id/join_phone" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/check_p_phone"
+                style="@style/modifiedEditText"
+                android:inputType="text"
+                android:maxLines="1"
+                android:hint="Number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/check_p_num_button"
+            style="@style/loginButton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="-40dp"
+            android:text="확인"
+            app:layout_constraintBaseline_toBaselineOf="@+id/join_id"
+            app:layout_constraintEnd_toEndOf="@+id/join_phone" />
+
 
         <Button
             android:id="@+id/join_button"
             style="@style/loginButton"
             android:layout_gravity="center"
+            android:layout_marginTop="20sp"
             android:text="Register" />
 
     </LinearLayout>
