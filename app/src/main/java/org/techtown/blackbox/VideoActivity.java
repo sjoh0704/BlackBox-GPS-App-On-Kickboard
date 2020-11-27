@@ -483,7 +483,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-//                                        Toast.makeText(VideoActivity.this, "Uploading fails", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(VideoActivity.this, "Uploading fails", Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
