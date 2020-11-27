@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean valiNum = false;
     private boolean valiPNum = false;
     long now = System.currentTimeMillis();
-    int []num = new int[6];
+    String certi;
 
     String strAgeRange, strName, strPName, nameNum;
 
@@ -60,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
         join_phone = findViewById(R.id.join_phone);
         join_pname = findViewById(R.id.join_pname);
         join_pphone = findViewById(R.id.join_pphone);
+
+        check_phone = findViewById(R.id.check_phone);
+        check_p_phone =findViewById(R.id.check_p_phone);
 
         //데이터 받기
         Intent intent = getIntent();
@@ -182,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 dialog.show();
                                 join_id.setEnabled(false); //아이디값 고정
                                 validate = true; //검증 완료
-                                check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
+//                                check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                                 dialog = builder.setMessage("이미 존재하는 아이디입니다.").setNegativeButton("확인", null).create();
@@ -204,8 +207,8 @@ public class RegisterActivity extends AppCompatActivity {
         send_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String UserPhone = join_phone.getText().toString();
-                if (UserPhone.equals("")) {
+                String phone = join_phone.getText().toString();
+                if (phone.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                     dialog = builder.setMessage("번호를 입력하세요.").setPositiveButton("확인", null).create();
                     dialog.show();
@@ -213,16 +216,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 else {
-                    final String phone = join_phone.getText().toString();
                     final String mms;
-                    Random ran = new Random();
-
-                    for (int i = 0; i < 6; i++) {
-                        num[i] = (ran.nextInt(10) + 1);
-                    }
+                    certi = excuteGenerate();
                     mms = "[슝슝]에서 보낸 인증번호\n"
-                            + "[" + num + "]" + "입니다.";
+                            + "[" + certi + "]" + "입니다.";
                     Log.d("mms", mms);
+                    Log.d("mms", phone);
                     sendMMS(phone, mms);
                 }
             }
@@ -232,6 +231,7 @@ public class RegisterActivity extends AppCompatActivity {
         check_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String checkNum = check_phone.getText().toString();
                 if (valiNum) {
                     return; //검증 완료
@@ -244,12 +244,12 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 else {
-                    check_phone = findViewById(R.id.check_phone);
-                    final String number = check_phone.getText().toString();
                     final String mms;
-                    if (num.equals(number)) {
+                    if (certi.equals(checkNum)) {
+                        valiNum = true; //검증 완료
                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                         dialog = builder.setMessage("인증되었습니다.").setPositiveButton("확인", null).create();
+                        check_phone.setEnabled(false);
                         dialog.show();
                         return;
                     }
@@ -356,7 +356,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void sendMMS(String phone, String text) {
 
-//        //Log.d(TAG, "sendMMS(Method) : " + "start");
+////        //Log.d(TAG, "sendMMS(Method) : " + "start");
 //
 ////        String subject = "제목";
 //
@@ -393,6 +393,32 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "SMS faild, please try again later!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+    //인증번호 뽑기
+    private int certCharLength = 6;
+    private final char[] characterTable = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+
+    public String excuteGenerate() {
+        Random random = new Random(System.currentTimeMillis());
+        int tablelength = characterTable.length;
+        StringBuffer buf = new StringBuffer();
+
+        for(int i = 0; i < certCharLength; i++) {
+            buf.append(characterTable[random.nextInt(tablelength)]);
+        }
+
+        return buf.toString();
+    }
+
+    public int getCertCharLength() {
+        return certCharLength;
+    }
+
+    public void setCertCharLength(int certCharLength) {
+        this.certCharLength = certCharLength;
     }
 
 }
