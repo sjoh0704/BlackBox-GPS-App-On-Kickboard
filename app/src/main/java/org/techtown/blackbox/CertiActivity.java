@@ -29,7 +29,7 @@ public class CertiActivity extends AppCompatActivity {
     private SessionCallback sessionCallback;
     private AlertDialog dialog;
     int pa_certi = 0;
-//    String btn_num;
+    String btn_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class CertiActivity extends AppCompatActivity {
         btnLoginKakaoUnder.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                btn_num = "1";
+                btn_num = "1";
                 switch (pa_certi) {
                     case 0:
                         AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
@@ -79,7 +79,7 @@ public class CertiActivity extends AppCompatActivity {
         btnLoginKakaoOver.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                btn_num = "2";
+                btn_num = "2";
                 switch (pa_certi) {
                     case 0:
                         AlertDialog.Builder builder = new AlertDialog.Builder(CertiActivity.this);
@@ -186,7 +186,7 @@ public class CertiActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                         //Intent intent = new Intent(CertiActivity.this, RegisterActivity.class);
                         intent.putExtra("name", result.getNickname());
-
+                        intent.putExtra("btn_num",btn_num);
                         if (result.getKakaoAccount().hasAgeRange() == OptionalBoolean.TRUE)
                             intent.putExtra("ageRange", result.getKakaoAccount().getAgeRange().getValue());
                         else

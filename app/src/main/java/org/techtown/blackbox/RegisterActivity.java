@@ -36,8 +36,8 @@ import java.util.Random;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText join_id, join_password, join_name, join_pwck;
-    private EditText join_phone, join_pname, join_pphone, check_phone, check_p_phone;
-    private Button join_button, check_button, send_number, send_p_number, check_number, check_p_number;
+    private EditText join_phone, join_pname, join_pphone, check_p_phone;
+    private Button join_button, check_button,send_p_number, check_p_number;
     private AlertDialog dialog;
     private boolean validate = false;
     private boolean valiNum = false;
@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     long now = System.currentTimeMillis();
     String certi;
 
-    String strAgeRange, strName, strPName, nameNum;
+    String strAgeRange, strName, strPName, nameNum, strBtnClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // 액티비티 시작시 처음으로 실행되는 생명주기!
@@ -61,12 +61,14 @@ public class RegisterActivity extends AppCompatActivity {
         join_pname = findViewById(R.id.join_pname);
         join_pphone = findViewById(R.id.join_pphone);
 
-        check_phone = findViewById(R.id.check_phone);
+//        check_phone = findViewById(R.id.check_phone);
         check_p_phone =findViewById(R.id.check_p_phone);
 
         //데이터 받기
         Intent intent = getIntent();
         strAgeRange = intent.getStringExtra("ageRange");
+        strBtnClick = intent.getStringExtra("btn_num");
+        Log.d("strBtnClick",strBtnClick);
 //        strName = intent.getStringExtra("Name");
 //        nameNum = intent.getStringExtra("btn_num");
 //        Log.d("ste", strName);
@@ -202,12 +204,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        //본인 핸드폰 확인 인증
-        send_number = findViewById(R.id.send_button);
-        send_number.setOnClickListener(new View.OnClickListener() {
+        //부모 핸드폰 확인 인증
+        send_p_number = findViewById(R.id.send_p_button);
+        send_p_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone = join_phone.getText().toString();
+                String phone = join_pphone.getText().toString();
                 if (phone.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                     dialog = builder.setMessage("번호를 입력하세요.").setPositiveButton("확인", null).create();
@@ -227,13 +229,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        check_number =findViewById(R.id.check_num_button);
-        check_number.setOnClickListener(new View.OnClickListener() {
+        check_p_number =findViewById(R.id.check_p_num_button);
+        check_p_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String checkNum = check_phone.getText().toString();
-                if (valiNum) {
+                String checkNum = check_p_phone.getText().toString();
+                if (valiPNum) {
                     return; //검증 완료
                 }
 
@@ -246,10 +248,10 @@ public class RegisterActivity extends AppCompatActivity {
                 else {
                     final String mms;
                     if (certi.equals(checkNum)) {
-                        valiNum = true; //검증 완료
+                        valiPNum = true; //검증 완료
                         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                         dialog = builder.setMessage("인증되었습니다.").setPositiveButton("확인", null).create();
-                        check_phone.setEnabled(false);
+                        check_p_phone.setEnabled(false);
                         dialog.show();
                         return;
                     }
@@ -292,11 +294,27 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 //한 칸이라도 입력 안했을 경우
-                if (UserId.equals("") || UserPwd.equals("") || UserName.equals("") || UserPhone.equals("") || UserPName.equals("") || UserPPhone.equals("")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    dialog = builder.setMessage("모두 입력해주세요.").setNegativeButton("확인", null).create();
-                    dialog.show();
-                    return;
+                if (strBtnClick.equals("2")) {
+                    if (UserId.equals("") || UserPwd.equals("") || UserName.equals("") || UserPhone.equals("")) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("모두 입력해주세요.").setNegativeButton("확인", null).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                else{
+                    if(!(valiPNum) ){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("보호자 번호 인증이 필요합니다.").setNegativeButton("확인", null).create();
+                        dialog.show();
+                        return;
+                    }
+                    if ( UserId.equals("") || UserPwd.equals("") || UserName.equals("") || UserPhone.equals("") || UserPName.equals("") || UserPPhone.equals("")) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        dialog = builder.setMessage("모두 입력해주세요.").setNegativeButton("확인", null).create();
+                        dialog.show();
+                        return;
+                    }
                 }
 
                 //패스워드 8자리 미만일 때 다시 하게 하기
@@ -355,8 +373,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void sendMMS(String phone, String text) {
-
-////        //Log.d(TAG, "sendMMS(Method) : " + "start");
+//
+//        Log.d("ㄷㅂㅈ","sendMMS(Method) : " + "start");
 //
 ////        String subject = "제목";
 //
@@ -365,7 +383,7 @@ public class RegisterActivity extends AppCompatActivity {
 ////        String imagePath = "이미지 경로";
 //
 ////        Log.d(TAG, "subject : " + subject);
-//        //Log.d(TAG, "text : " + text);
+//        Log.d("ㅂㅈ","text : " + text);
 ////        Log.d(TAG, "imagePath : " + imagePath);
 //
 //        Settings settings = new Settings();
