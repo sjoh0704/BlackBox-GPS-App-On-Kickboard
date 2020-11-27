@@ -117,7 +117,7 @@
                         android:shadowDx="10"
                         android:shadowDy="10"
                         android:text="Record"
-                        android:textColor="#FBC02D"
+                        android:textColor="#4784ea"
                         android:textSize="14sp" />
 
                     <Button
@@ -132,7 +132,7 @@
                         android:shadowDx="10"
                         android:shadowDy="10"
                         android:text="Gallery"
-                        android:textColor="#FBC02D"
+                        android:textColor="#4784ea"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -159,7 +159,7 @@
                         android:shadowDx="10"
                         android:shadowDy="10"
                         android:text="Logout"
-                        android:textColor="#FBC02D"
+                        android:textColor="#4784ea"
                         android:textSize="14sp" />
 
                     <Button
@@ -174,7 +174,7 @@
                         android:shadowDx="10"
                         android:shadowDy="10"
                         android:text="content"
-                        android:textColor="#FBC02D"
+                        android:textColor="#4784ea"
                         android:textSize="14sp" />
                 </LinearLayout>
 
