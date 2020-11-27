@@ -65,10 +65,15 @@ class MyGalleryAdapter extends BaseAdapter {
         }
         ImageView imageThumbnail = (ImageView)convertView.findViewById(R.id.gallery_imageView);
 
+
         TextView textView = convertView.findViewById(R.id.galleryTextView);
         imageThumbnail.setImageBitmap(bmThumbnail);
-        textView.setText(videoTitle[position]);
-
+        if(videoTitle[position] != null) {
+            String[] title = videoTitle[position].split("_");
+            textView.setText(title[1] + "_" + title[2]);
+        }else{
+            textView.setText("잘못된 형식");
+        }
 
 
         return convertView;

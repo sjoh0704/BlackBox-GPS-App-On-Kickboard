@@ -40,6 +40,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,6 +57,9 @@ import com.kakao.usermgmt.response.model.User;
 import com.klinker.android.send_message.Message;
 import com.klinker.android.send_message.Settings;
 import com.klinker.android.send_message.Transaction;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +96,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private GpsTracker gpsTracker;
     private String userId;
     private String parentNum;
-    private long backKeyPressedTime = 0;
+    private long startTime;
+    private long endTime;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int VIDEO_REQUEST_CODE = 1000;
@@ -108,10 +115,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         setContentView(R.layout.activity_video);
         allowPermission();  //Ted permission으로 권한 얻어오기
         makeDir();
-        if(userId == null || parentNum == null) {
+        if(userId == null) {
             userId = getIntent().getStringExtra("UserId");
             parentNum = getIntent().getStringExtra("UserPPhone");
-
 
         }
 
@@ -134,7 +140,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         btn_send.setOnClickListener(this);
 
 
-
+        surfaceView = findViewById(R.id.surfaceView);
         fabMenu = findViewById(R.id.fab_menu);
         fab_gallery = findViewById(R.id.fab_gallery);
         fab_home = findViewById(R.id.fab_home);
@@ -204,12 +210,22 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                         mediaRecorder.stop();
                         mediaRecorder.release();
                         camera.lock();
+                        mediaRecorder=null;
                         recording  = false;
-
-//                        Toast.makeText(this, "업로드중입니다.", Toast.LENGTH_SHORT).show();
-
                         btn_upload.callOnClick();
                         btn_send.callOnClick();
+
+
+                        sendCollisionLocation();
+
+
+
+
+
+
+
+
+
                     }
 
                 } else if (speed < 10) {
@@ -222,6 +238,44 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 last_z = z;
             }
         }
+    }
+
+    private void sendCollisionLocation() {
+        gpsTracker = new GpsTracker(this);
+        String latitude = String.valueOf(gpsTracker.getLatitude());
+        String longitude = String.valueOf(gpsTracker.getLongitude());
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+            //서버로부터 여기서 데이터를 받음
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    //서버통신 성공 or 실패
+                    boolean success = jsonObject.getBoolean("success");
+                    if (success) {
+                        Log.e("status: ", "success");
+
+
+                    } else { // 로그인에 실패한 경우
+                        Log.e("status: ", "fails");
+
+                        return;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        CollisionLocationRequest collisionLocationRequest
+                = new CollisionLocationRequest(longitude,latitude, userId, responseListener);
+
+        RequestQueue queue = Volley.newRequestQueue( VideoActivity.this );
+        queue.add(collisionLocationRequest);
+
     }
 
     @Override
@@ -304,7 +358,6 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
             Log.e("TAG", "권한 허가");
             camera = Camera.open();
             camera.setDisplayOrientation(90);
-            surfaceView = findViewById(R.id.surfaceView);
             surfaceHolder = surfaceView.getHolder();
             surfaceHolder.addCallback(VideoActivity.this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -358,17 +411,23 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         switch(view.getId()){
 
             case R.id.btn_record:
-                if(recording){
 
-                    mediaRecorder.stop();
-                    mediaRecorder.release();
-                    camera.lock();
-                    recording  = false;
+                if(recording){
+                    endTime = System.currentTimeMillis();
+
+                    if(endTime-startTime > 1000) {
+                        mediaRecorder.stop();
+                        mediaRecorder.release();
+                        mediaRecorder = null;
+                        camera.lock();
+                        recording = false;
+
+                        btn_upload.callOnClick();
+                        btn_send.callOnClick();
+                    }
 
 //                    Toast.makeText(VideoActivity.this, "업로드중입니다.", Toast.LENGTH_SHORT).show();
 
-                    btn_upload.callOnClick();
-                    btn_send.callOnClick();
 
 
 
@@ -377,15 +436,16 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            startTime = System.currentTimeMillis();
                             Log.e("userID: ", userId);
                             Log.e("parentNum: ", parentNum);
                             Log.e("parentNum: ", String.valueOf(parentNum.length()));
-                            if(parentNum.length() == 11){
+                            if(parentNum.length() == 11 || parentNum.length() == 0){
                                 phoneNum = parentNum;
                                 //과부화도 덜되고 동영상 처리는 여기서 하는게 좋다
                                 Toast.makeText(VideoActivity.this, "녹화를 시작합니다!", Toast.LENGTH_SHORT).show();
                                 try {
-
+                                    Log.e("시작:", "1");
 
                                     mediaRecorder = new MediaRecorder();
                                     camera.unlock();
@@ -395,20 +455,25 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
                                     mediaRecorder.setOrientationHint(90);
 
-                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmm");
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmm_ss");
                                     Date now = new Date();
                                     filename =  userId + "_"+ formatter.format(now) + ".mp4";
 
-
-
+                                    Log.e("시작:", "2");
+                                    Log.e("파일저장: ", dirPath +"/"+ filename);
                                     mediaRecorder.setOutputFile(dirPath +"/"+ filename);
                                     mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
-                                    mediaRecorder.prepare();
+
+                                    try {
+                                        mediaRecorder.prepare();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                     mediaRecorder.start();
                                     recording = true;
 
 
-
+                                    Log.e("시작:", "3");
 
                                     MediaScanner ms = MediaScanner.newInstance(VideoActivity.this);
                                     try {  ms.mediaScanning(dirPath + "/" + filename); }
@@ -421,12 +486,15 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     String address = getCurrentAddress(latitude, longtitude);
 
                                     String start_msg = "[슝슝] 등록된 사용자가 서비스를 이용합니다.\n현재 사용자의 위치는 "+address.trim()+" 입니다.";
+//
+                                    if(phoneNum.length()== 11)
                                     sendMMS(phoneNum, start_msg);
 
-
+                                    Log.e("시작:", "4");
 
 
                                 }catch (Exception e){
+                                    Log.e("error", e.toString());
                                     e.printStackTrace();
                                     mediaRecorder.release();
                                 }}
@@ -524,8 +592,9 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
 
 
-
+                if(phoneNum.length() == 11)
                 sendMMS(phoneNum, msg );
+
 //                sendSms(phoneNum, msg + URL);
                 phoneNum = null;
 //                Toast.makeText(this, "메시지 자동 전송", Toast.LENGTH_SHORT).show();

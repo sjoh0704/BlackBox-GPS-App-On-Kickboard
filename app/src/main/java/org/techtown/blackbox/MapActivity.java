@@ -134,7 +134,7 @@ public class MapActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        if(UserId == null || parentNum == null) {
+        if(UserId == null) {
             UserId = getIntent().getStringExtra("UserId");
             parentNum = getIntent().getStringExtra("UserPPhone");
             saveState();
