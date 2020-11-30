@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         UserIdView = findViewById(R.id.user_id);
 
         //home에 데이터값 저장
-        if(userId == null || parentNum == null) {
+        if(userId == null) {
             userId = getIntent().getStringExtra("UserId");
             parentNum = getIntent().getStringExtra("UserPPhone");
             UserIdView.setText(userId);
