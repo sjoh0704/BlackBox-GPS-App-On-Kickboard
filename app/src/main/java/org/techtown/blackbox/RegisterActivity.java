@@ -36,6 +36,9 @@ import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity {
 
+
+    private int certCharLength = 6;
+    private final char[] characterTable = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
     private EditText join_id, join_password, join_name, join_pwck;
     private EditText join_phone, join_pname, join_pphone, check_p_phone;
     private Button join_button, check_button,send_p_number, check_p_number;
@@ -232,8 +235,8 @@ public class RegisterActivity extends AppCompatActivity {
                     certi = excuteGenerate();
                     mms = "[슝슝]에서 보낸 인증번호\n"
                             + "[" + certi + "]" + "입니다.";
-                    Log.d("mms", mms);
-                    Log.d("mms", phone);
+                    Log.d("msg: ", mms);
+                    Log.d("phone: ", phone);
                     sendMMS(phone, mms);
                 }
             }
@@ -382,50 +385,40 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public void sendMMS(String phone, String text) {
-//
-//        Log.d("ㄷㅂㅈ","sendMMS(Method) : " + "start");
-//
-////        String subject = "제목";
-//
-//
-//        // 예시 (절대경로) : String imagePath = "/storage/emulated/0/Pictures/Screenshots/Screenshot_20190312-181007.png";
-////        String imagePath = "이미지 경로";
-//
-////        Log.d(TAG, "subject : " + subject);
-//        Log.d("ㅂㅈ","text : " + text);
-////        Log.d(TAG, "imagePath : " + imagePath);
-//
-//        Settings settings = new Settings();
-//        settings.setUseSystemSending(true);
-//
-//        // TODO : 이 Transaction 클래스를 위에 링크에서 다운받아서 써야함
-//        Transaction transaction = new Transaction(this, settings);
-//
-//        // 제목이 있을경우
-////        Message message = new Message(text, phone, subject);
-//
-//        // 제목이 없을경우
-//        Message message = new Message(text, phone);
-//
-//        long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
-//
-//        transaction.sendNewMessage(message, id);
 
-        try {
-            //전송
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phone, null, text, null, null);
-            Toast.makeText(getApplicationContext(), "전송 완료!", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "SMS faild, please try again later!", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
+    public void sendMMS(String phone,String text) {
+
+        Log.d("TAG", "sendMMS(Method) : " + "start");
+
+//        String subject = "제목";
+
+
+        // 예시 (절대경로) : String imagePath = "/storage/emulated/0/Pictures/Screenshots/Screenshot_20190312-181007.png";
+//        String imagePath = "이미지 경로";
+
+//        Log.d(TAG, "subject : " + subject);
+        Log.d("TAG", "text : " + text);
+//        Log.d(TAG, "imagePath : " + imagePath);
+
+        Settings settings = new Settings();
+        settings.setUseSystemSending(true);
+
+        // TODO : 이 Transaction 클래스를 위에 링크에서 다운받아서 써야함
+        Transaction transaction = new Transaction(this, settings);
+
+        // 제목이 있을경우
+//        Message message = new Message(text, phone, subject);
+
+        // 제목이 없을경우
+        Message message = new Message(text, phone);
+
+        long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
+
+        transaction.sendNewMessage(message, id);
+        Toast.makeText(this, "인증번호 전송!", Toast.LENGTH_SHORT).show();
     }
 
     //인증번호 뽑기
-    private int certCharLength = 6;
-    private final char[] characterTable = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
 
     public String excuteGenerate() {
         Random random = new Random(System.currentTimeMillis());
