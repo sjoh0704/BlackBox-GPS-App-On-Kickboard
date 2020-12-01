@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import android.location.LocationManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -98,7 +100,8 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
     private String parentNum;
     private long startTime;
     private long endTime;
-
+    private ContentValues addRowValue;
+    private static final String URL = "http://ssoong-ssoong.paas-ta.org/accidentGps";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int VIDEO_REQUEST_CODE = 1000;
 
@@ -164,6 +167,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         });
 
 
+        addRowValue = new ContentValues();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("업로드 중입니다.\n 잠시만 기다려주세요...");
@@ -215,13 +219,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                         btn_upload.callOnClick();
                         btn_send.callOnClick();
 
-
-                        sendCollisionLocation();
-
-
-
-
-
+                        send_collision_info();
 
 
 
@@ -238,44 +236,6 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 last_z = z;
             }
         }
-    }
-
-    private void sendCollisionLocation() {
-        gpsTracker = new GpsTracker(this);
-        String latitude = String.valueOf(gpsTracker.getLatitude());
-        String longitude = String.valueOf(gpsTracker.getLongitude());
-
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-
-            //서버로부터 여기서 데이터를 받음
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    //서버통신 성공 or 실패
-                    boolean success = jsonObject.getBoolean("success");
-                    if (success) {
-                        Log.e("status: ", "success");
-
-
-                    } else { // 로그인에 실패한 경우
-                        Log.e("status: ", "fails");
-
-                        return;
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        CollisionLocationRequest collisionLocationRequest
-                = new CollisionLocationRequest(longitude,latitude, userId, responseListener);
-
-        RequestQueue queue = Volley.newRequestQueue( VideoActivity.this );
-        queue.add(collisionLocationRequest);
-
     }
 
     @Override
@@ -835,4 +795,65 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
         long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
 
         transaction.sendNewMessage(message, id);
-}}
+
+}
+
+private void send_collision_info(){
+
+
+
+    gpsTracker = new GpsTracker(this);
+    String col_latitude = String.valueOf(gpsTracker.getLatitude());
+    String col_longitude = String.valueOf(gpsTracker.getLongitude());
+
+
+
+    addRowValue.put("userID", userId);
+    addRowValue.put("collLongitude", col_longitude);
+    addRowValue.put("collLatitude", col_latitude);
+    NetworkTask networkTask = new NetworkTask(URL, addRowValue);
+    networkTask.execute();
+
+}
+
+
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
