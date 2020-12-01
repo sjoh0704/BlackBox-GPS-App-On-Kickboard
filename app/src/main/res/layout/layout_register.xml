@@ -99,6 +99,18 @@
                 android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
+            android:background="@android:color/secondary_text_light"
+            android:fontFamily="@font/nanumsquareroundr"
+            android:gravity="center"
+            android:hint="text"
+            android:textColor="#386DE5"
+            android:textSize="16sp" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="170dp"
             android:layout_height="50dp"
@@ -151,7 +163,7 @@
             android:id="@+id/join_button"
             style="@style/loginButton"
             android:layout_gravity="center"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="40sp"
             android:text="Register" />
 
     </LinearLayout>
