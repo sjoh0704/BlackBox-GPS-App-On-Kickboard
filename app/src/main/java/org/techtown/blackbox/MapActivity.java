@@ -65,8 +65,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-
-
 public class MapActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback{
@@ -152,6 +150,8 @@ public class MapActivity extends AppCompatActivity
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자가 보이기 전 지도의 초기위치를 서울로 함
         setDefaultLocation();
+
+
 
         //런타임 퍼미션 처리
         //위치 퍼미션을 갖고 있는지 체크
@@ -597,5 +597,4 @@ public class MapActivity extends AppCompatActivity
             parentNum = pref.getString("num", "");
         }
     }
-
 }
