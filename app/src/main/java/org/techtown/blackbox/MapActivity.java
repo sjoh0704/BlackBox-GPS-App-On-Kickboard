@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -29,6 +31,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -53,6 +58,7 @@ import com.android.volley.toolbox.Volley;
 import com.kakao.util.helper.Utility;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,6 +78,7 @@ public class MapActivity extends AppCompatActivity
     private GoogleMap mMap = null;
     private Marker currentMarker = null;
     private Marker destinationMarker = null;
+    private Marker accidentMarker = null;
 
     private String UserId;
     private String parentNum;
@@ -162,8 +169,11 @@ public class MapActivity extends AppCompatActivity
 
         if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED
                 && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
+
             //이미 퍼미션을 가지고 있다면
             startLocationUpdates();
+            getAccidentLocation();
+
         }else {//퍼미션 요청을 허용한 적 없다면 퍼미션 요청이 필요
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -199,9 +209,9 @@ public class MapActivity extends AppCompatActivity
                 destinationPosition = new LatLng(latLng.latitude,
                         latLng.longitude);
 
-                String markerTitle = "도착지\n"+getCurrentAddress(destinationPosition);
-                String markerSnippet = "위도: "+ destinationPosition.latitude
-                        + "경도: " + destinationPosition.longitude;
+                String markerTitle = "도착지"/*+getCurrentAddress(destinationPosition)*/;
+                String markerSnippet = /*"위도: "+ destinationPosition.latitude
+                        + "경도: " + destinationPosition.longitude*/getCurrentAddress(destinationPosition);
 
                 Log.d(TAG,"onLocationResult: "+markerSnippet);
 
@@ -280,9 +290,9 @@ public class MapActivity extends AppCompatActivity
                 currentPosition = new LatLng(location.getLatitude(),
                         location.getLongitude());
 
-                String markerTitle = "출발지\n"+getCurrentAddress(currentPosition);
-                String markerSnippet = "위도: "+ String.valueOf(location.getLatitude())
-                        + "경도: " + String.valueOf(location.getLongitude());
+                String markerTitle = "출발지"/*+getCurrentAddress(currentPosition)*/;
+                String markerSnippet = /*"위도: "+ String.valueOf(location.getLatitude())
+                        + "경도: " + String.valueOf(location.getLongitude())*/getCurrentAddress(currentPosition);
 
                 Log.d(TAG,"onLocationResult: "+markerSnippet);
 
@@ -395,6 +405,53 @@ public class MapActivity extends AppCompatActivity
 
     }
 
+    public void getAccidentLocation(){
+        String serverUrl="http://34.64.132.117/getAccidentGPS.php";
+
+        //결과를 JsonArray 받을 것이므로..
+        //StringRequest가 아니라..
+        //JsonArrayRequest를 이용할 것임
+        JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.POST, serverUrl,
+                null, new Response.Listener<JSONArray>() {
+            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
+            @Override
+            public void onResponse(JSONArray response) {
+                Toast.makeText(MapActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
+
+                //파라미터로 응답받은 결과 JsonArray를 분석
+
+                try {
+
+                    for(int i=0;i<response.length();i++){
+                        JSONObject jsonObject= response.getJSONObject(i);
+
+                        Double accident_latitude= Double.valueOf(jsonObject.getString("accident_latitude"));
+                        Double accident_longitude= Double.valueOf(jsonObject.getString("accident_longitude"));
+
+                        LatLng accident_location = new LatLng(accident_latitude, accident_longitude);
+
+                        setAccidentLocation(accident_location, "사고 다발 지역");
+
+                    }
+                } catch (JSONException e) {e.printStackTrace();}
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MapActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //실제 요청 작업을 수행해주는 요청큐 객체 생성
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+
+        //요청큐에 요청 객체 생성
+        requestQueue.add(jsonArrayRequest);
+
+    }
+
     public boolean checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -402,6 +459,21 @@ public class MapActivity extends AppCompatActivity
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
+    public void setAccidentLocation(LatLng location, String markerTitle){
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(location);
+        markerOptions.title(markerTitle);
+
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.collision);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+        markerOptions.alpha(0.5f);
+
+        accidentMarker = mMap.addMarker(markerOptions);
+
+    }
 
     public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
 
