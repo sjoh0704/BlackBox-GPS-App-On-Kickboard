@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://http://Ssoong-Ssoong.paas-ta.org"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://Ssoong-Ssoong.paas-ta.org"));
                 startActivity(intent);
 
             }
