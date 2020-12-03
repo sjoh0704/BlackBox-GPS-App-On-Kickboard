@@ -12,7 +12,7 @@ public class RegisterRequest extends StringRequest {
     // 서버 URL 설정 ( PHP 파일 연동 )
     final static private String URL = "http://34.64.132.117/Register.php";
 
-//          34.64.229.192
+    //          34.64.229.192
     private Map<String, String> map;
 
 
