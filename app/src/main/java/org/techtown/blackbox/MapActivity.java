@@ -144,8 +144,6 @@ public class MapActivity extends AppCompatActivity
             parentNum = getIntent().getStringExtra("UserPPhone");
             saveState();
         }
-
-
     }
 
 
@@ -157,7 +155,6 @@ public class MapActivity extends AppCompatActivity
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자가 보이기 전 지도의 초기위치를 서울로 함
         setDefaultLocation();
-
 
 
         //런타임 퍼미션 처리
@@ -243,8 +240,6 @@ public class MapActivity extends AppCompatActivity
                                 //서버통신 성공 or 실패
                                 boolean success = jsonObject.getBoolean("success");
                                 if (success) { // 성공한 경우
-                                    //UserId = jsonObject.getString("UserId");
-                                    //String UserPPhone = jsonObject.getString("UserPPhone");
 
                                     Toast.makeText(getApplicationContext(),"위치 저장에 성공하였습니다.",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MapActivity.this, VideoActivity.class);
@@ -290,9 +285,8 @@ public class MapActivity extends AppCompatActivity
                 currentPosition = new LatLng(location.getLatitude(),
                         location.getLongitude());
 
-                String markerTitle = "출발지"/*+getCurrentAddress(currentPosition)*/;
-                String markerSnippet = /*"위도: "+ String.valueOf(location.getLatitude())
-                        + "경도: " + String.valueOf(location.getLongitude())*/getCurrentAddress(currentPosition);
+                String markerTitle = "출발지";
+                String markerSnippet = getCurrentAddress(currentPosition);
 
                 Log.d(TAG,"onLocationResult: "+markerSnippet);
 
@@ -328,6 +322,7 @@ public class MapActivity extends AppCompatActivity
 
             if (checkPermission())
                 mMap.setMyLocationEnabled(true);
+
         }
     }
 
@@ -408,16 +403,14 @@ public class MapActivity extends AppCompatActivity
     public void getAccidentLocation(){
         String serverUrl="http://34.64.132.117/getAccidentGPS.php";
 
-        //결과를 JsonArray 받을 것이므로..
-        //StringRequest가 아니라..
+        //결과를 JsonArray 받을 것이므로 StringRequest가 아니라
         //JsonArrayRequest를 이용할 것임
         JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.POST, serverUrl,
                 null, new Response.Listener<JSONArray>() {
             //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
             @Override
             public void onResponse(JSONArray response) {
-                Toast.makeText(MapActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(MapActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
                 //파라미터로 응답받은 결과 JsonArray를 분석
 
@@ -472,7 +465,6 @@ public class MapActivity extends AppCompatActivity
         markerOptions.alpha(0.5f);
 
         accidentMarker = mMap.addMarker(markerOptions);
-
     }
 
     public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
@@ -511,7 +503,6 @@ public class MapActivity extends AppCompatActivity
         currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
-        //mMap.moveCamera(cameraUpdate);
         mMap.animateCamera(cameraUpdate);
     }
 
@@ -530,7 +521,6 @@ public class MapActivity extends AppCompatActivity
         destinationMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(destinationLatLng, 15);
-        //mMap.moveCamera(cameraUpdate);
         mMap.animateCamera(cameraUpdate);
     }
 
