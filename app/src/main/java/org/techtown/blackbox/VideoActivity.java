@@ -448,7 +448,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                                     String start_msg = "[슝슝] 등록된 사용자가 서비스를 이용합니다.\n현재 사용자의 위치는 "+address.trim()+" 입니다.";
 //
                                     if(phoneNum.length()== 11)
-                                    sendMMS(phoneNum, start_msg);
+                                        sendMMS(phoneNum, start_msg);
 
                                     Log.e("시작:", "4");
 
@@ -543,17 +543,17 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                             "현 사용자 위치는 "+address.trim()+" 입니다.\n" +
                             "링크를 통해 경로를 확인할 수 있습니다.\n" + URL  ;
 
-                collision= false;
+                    collision= false;
                 }
                 else{
                     msg = "[슝슝] 사용자가 안전하게 서비스를 이용하였습니다.\n" +
-                "사용자의 위치는 "+address.trim()+" 입니다.\n" +
-                "링크를 통해 경로를 확인할 수 있습니다.\n" + URL  ;}
+                            "사용자의 위치는 "+address.trim()+" 입니다.\n" +
+                            "링크를 통해 경로를 확인할 수 있습니다.\n" + URL  ;}
 
 
 
                 if(phoneNum.length() == 11)
-                sendMMS(phoneNum, msg );
+                    sendMMS(phoneNum, msg );
 
 //                sendSms(phoneNum, msg + URL);
                 phoneNum = null;
@@ -790,31 +790,31 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 //        Message message = new Message(text, phone, subject);
 
         // 제목이 없을경우
-         Message message = new Message(text, phone);
+        Message message = new Message(text, phone);
 
         long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
 
         transaction.sendNewMessage(message, id);
 
-}
+    }
 
-private void send_collision_info(){
-
-
-
-    gpsTracker = new GpsTracker(this);
-    String col_latitude = String.valueOf(gpsTracker.getLatitude());
-    String col_longitude = String.valueOf(gpsTracker.getLongitude());
+    private void send_collision_info(){
 
 
 
-    addRowValue.put("userID", userId);
-    addRowValue.put("collLongitude", col_longitude);
-    addRowValue.put("collLatitude", col_latitude);
-    NetworkTask networkTask = new NetworkTask(URL, addRowValue);
-    networkTask.execute();
+        gpsTracker = new GpsTracker(this);
+        String col_latitude = String.valueOf(gpsTracker.getLatitude());
+        String col_longitude = String.valueOf(gpsTracker.getLongitude());
 
-}
+
+
+        addRowValue.put("userID", userId);
+        addRowValue.put("collLongitude", col_longitude);
+        addRowValue.put("collLatitude", col_latitude);
+        NetworkTask networkTask = new NetworkTask(URL, addRowValue);
+        networkTask.execute();
+
+    }
 
 
 
@@ -847,13 +847,3 @@ private void send_collision_info(){
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
