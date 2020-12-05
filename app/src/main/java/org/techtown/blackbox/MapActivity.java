@@ -206,9 +206,8 @@ public class MapActivity extends AppCompatActivity
                 destinationPosition = new LatLng(latLng.latitude,
                         latLng.longitude);
 
-                String markerTitle = "도착지"/*+getCurrentAddress(destinationPosition)*/;
-                String markerSnippet = /*"위도: "+ destinationPosition.latitude
-                        + "경도: " + destinationPosition.longitude*/getCurrentAddress(destinationPosition);
+                String markerTitle = "도착지";
+                String markerSnippet =getCurrentAddress(destinationPosition);
 
                 Log.d(TAG,"onLocationResult: "+markerSnippet);
 
@@ -397,11 +396,10 @@ public class MapActivity extends AppCompatActivity
             Address address = addresses.get(0);
             return address.getAddressLine(0).toString();
         }
-
     }
 
     public void getAccidentLocation(){
-        String serverUrl="http://34.64.132.117/getAccidentGPS.php";
+        String serverUrl="http://Ssoong-Ssoong.paas-ta.org/getAccident";
 
         //결과를 JsonArray 받을 것이므로 StringRequest가 아니라
         //JsonArrayRequest를 이용할 것임
@@ -482,7 +480,6 @@ public class MapActivity extends AppCompatActivity
         currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLatLng, 15);
-        //mMap.moveCamera(cameraUpdate);
         mMap.animateCamera(cameraUpdate);
     }
 
@@ -559,7 +556,6 @@ public class MapActivity extends AppCompatActivity
                     break;
                 }
             }
-
 
             if ( check_result ) {
                 // 퍼미션을 허용했다면 위치 업데이트를 시작
@@ -647,9 +643,9 @@ public class MapActivity extends AppCompatActivity
         editor.putString("id", UserId);
         editor.putString("num", parentNum);
         editor.commit();
-
-
     }
+
+
     protected void restoreState(){
         SharedPreferences pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         if((pref!=null) && (pref.contains("id"))){

@@ -3,6 +3,7 @@ package org.techtown.blackbox;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -46,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        allowPermission();  //Ted permission으로 권한 얻어오기
+
+
         et_id = findViewById(R.id.et_id);
         et_pass = findViewById(R.id.et_pass);
         btn_login = findViewById(R.id.btn_login);
@@ -125,12 +133,40 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+    PermissionListener permission = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            //Toast.makeText(MainActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
+            Log.e("TAG", "권한 허가");
+
+
+
+        }
+
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            Log.e("거부된 퍼미션: ", deniedPermissions.toString());
+            Toast.makeText(LoginActivity.this, "권한 거부이 거부되었습니다. 설정 -> 권한 허용", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
+    private void allowPermission() {
+
+        TedPermission.with(this)
+                .setPermissionListener(permission)
+                .setRationaleMessage("필요한 권한을 허용해주세요.")
+                .setDeniedMessage("권한이 거부되었습니다.")
+                .setPermissions(Manifest.permission.CAMERA,  Manifest.permission.RECORD_AUDIO, Manifest.permission.SEND_SMS, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_SMS)
+                .check();
+    }
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-           return;
+            return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
