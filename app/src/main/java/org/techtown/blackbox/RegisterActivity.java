@@ -1,7 +1,10 @@
 package org.techtown.blackbox;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.SurfaceControl;
@@ -13,6 +16,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
@@ -389,6 +395,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void sendMMS(String phone,String text) {
 
         Log.d("TAG", "sendMMS(Method) : " + "start");
+
 
 //        String subject = "제목";
 
