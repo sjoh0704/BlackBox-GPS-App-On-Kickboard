@@ -11,6 +11,7 @@ import android.view.SurfaceControl;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -51,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validate = false;
     private boolean valiNum = false;
     private boolean valiPNum = false;
+    TextView form;
     long now = System.currentTimeMillis();
     String certi;
 
@@ -77,6 +79,15 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
         strAgeRange = intent.getStringExtra("ageRange");
         strBtnClick = intent.getStringExtra("btn_num");
+        form = findViewById(R.id.form);
+
+        if(strBtnClick.equals("2")){
+            form.setText("선택 입력");
+        }
+        else{
+            form.setText("필수 입력");
+        }
+
         Log.d("strBtnClick",strBtnClick);
 //        strName = intent.getStringExtra("Name");
 //        nameNum = intent.getStringExtra("btn_num");
