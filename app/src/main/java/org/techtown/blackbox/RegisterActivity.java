@@ -1,17 +1,24 @@
 package org.techtown.blackbox;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.SurfaceControl;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
@@ -45,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validate = false;
     private boolean valiNum = false;
     private boolean valiPNum = false;
+    TextView form;
     long now = System.currentTimeMillis();
     String certi;
 
@@ -71,6 +79,15 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = getIntent();
         strAgeRange = intent.getStringExtra("ageRange");
         strBtnClick = intent.getStringExtra("btn_num");
+        form = findViewById(R.id.form);
+
+        if(strBtnClick.equals("2")){
+            form.setText("선택 입력");
+        }
+        else{
+            form.setText("필수 입력");
+        }
+
         Log.d("strBtnClick",strBtnClick);
 //        strName = intent.getStringExtra("Name");
 //        nameNum = intent.getStringExtra("btn_num");
@@ -365,9 +382,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //서버로 Volley를 이용해서 요청
                 RegisterRequest registerRequest = new RegisterRequest(UserDate, UserId, UserPwd, UserName, UserPhone, UserPName, UserPPhone, responseListener);
+                ToRegisterRequest registerRequest1 = new ToRegisterRequest(UserDate, UserId, UserPwd, UserName, UserPhone, UserPName, UserPPhone, responseListener);
                 GpsIdRequest gpsidRequest = new GpsIdRequest(UserId, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
+                queue.add(registerRequest1);
                 queue.add(gpsidRequest);
 
             }
@@ -379,6 +398,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void sendMMS(String phone,String text) {
 
         Log.d("TAG", "sendMMS(Method) : " + "start");
+
 
 //        String subject = "제목";
 

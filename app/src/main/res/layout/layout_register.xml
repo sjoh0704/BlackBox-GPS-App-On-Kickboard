@@ -104,10 +104,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15sp"
+            android:background="#52448AFF"
             android:fontFamily="@font/nanumsquareroundr"
             android:gravity="center"
             android:hint="text"
-            android:textColor="#386DE5"
+            android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
