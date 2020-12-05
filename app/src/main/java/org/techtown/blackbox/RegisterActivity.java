@@ -381,9 +381,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //서버로 Volley를 이용해서 요청
                 RegisterRequest registerRequest = new RegisterRequest(UserDate, UserId, UserPwd, UserName, UserPhone, UserPName, UserPPhone, responseListener);
+                ToRegisterRequest registerRequest1 = new ToRegisterRequest(UserDate, UserId, UserPwd, UserName, UserPhone, UserPName, UserPPhone, responseListener);
                 GpsIdRequest gpsidRequest = new GpsIdRequest(UserId, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
+                queue.add(registerRequest1);
                 queue.add(gpsidRequest);
 
             }
