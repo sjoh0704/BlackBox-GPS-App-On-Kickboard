@@ -536,7 +536,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
                 double longtitude = gpsTracker.getLongitude();
                 String address = getCurrentAddress(latitude, longtitude);
 //                String location = "\n위도: " + latitude + "\n경도: " + longtitude + "\n";
-                String URL = "http://map-path.paas-ta.org/?id=" + userId;
+                String URL = "http://http://Ssoong-Ssoong.paas-ta.org/path?id=" + userId;
                 String msg;
                 if(collision){
                     msg = "[슝슝] 현재 사용자에게 사고가 발생하였습니다.\n" +

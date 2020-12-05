@@ -406,7 +406,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     public void getAccidentLocation(){
-        String serverUrl="http://34.64.132.117/getAccidentGPS.php";
+        String serverUrl="http://Ssoong-Ssoong.paas-ta.org/getAccident";
 
         //결과를 JsonArray 받을 것이므로..
         //StringRequest가 아니라..
