@@ -178,7 +178,7 @@ public class VideoActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
         saveState();
 
-
+        //new
 
     }
     @Override
