@@ -57,4 +57,16 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 스 소프트웨어
 
 
+- ### 사용기술을 통한 서비스 구현
+
+1. 앱 - 회원가입 및 로그인
+
+
+
+![2](https://user-images.githubusercontent.com/66519046/108331203-df390a80-7211-11eb-8201-1fc1f5d2b4d9.png)
+
+
+
+
+
 
