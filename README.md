@@ -1,22 +1,22 @@
 
-# 전동 킥보드 블랙박스 및 미성년자 2차 인증 어플리케이션 개발        
-### 목적 또는 기획 배경
-
-
+# 전동 킥보드 블랙박스 및 미성년자 2차 인증 어플리케이션 개발     
+</br>
+## 목적 또는 기획 배경
 전동 킥보드 확산에 따른 미성년자 킥보드 사용 문제 제기    
 이에 대한 해결책으로 보호자 동의하에 사용할 수 있는 블랙박스 어플리케이션 기획
 
    
+## 서비스 시나리오 순서도  
 
-### 서비스 시나리오 순서도
-
-![image](https://user-images.githubusercontent.com/66519046/108667207-08141500-751c-11eb-8f1e-35f93f7fc0ad.png)
-
+![image](https://user-images.githubusercontent.com/66519046/108667207-08141500-751c-11eb-8f1e-35f93f7fc0ad.png)  
 
 
-### 사용된 기술 스택 
 
-#### 1. 앱:
+
+## 사용된 기술 스택 
+
+
+### 1. 앱:
 
 
 ![image](https://user-images.githubusercontent.com/66519046/108670997-2c272480-7523-11eb-907e-cb1037b2db44.png)
@@ -38,7 +38,7 @@ MMS 형태로 전달하는 기능 제공
 - 가속도 센서: 스마트폰에 내장된 센서로 순간 변화량에 의해 트리
 거를 감지. threshold를 조절해서 감지 기능 조절 가능
 
- #### 2. 웹-Pasta:
+ ### 2. 웹-Pasta:
 
 ![image](https://user-images.githubusercontent.com/66519046/108670970-1e719f00-7523-11eb-8f4b-16c7eba9cdeb.png)
 
@@ -52,7 +52,7 @@ SQL을 호출해 DB와 통신 가능
 - MVC패턴 사용
 
 
-#### 3. 클라우드:
+### 3. 클라우드:
 
 ![image](https://user-images.githubusercontent.com/66519046/108670930-0e59bf80-7523-11eb-9021-d8ed73f2957a.png)
 
@@ -71,7 +71,7 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 
 
 
-### 최종 솔루션 및 서비스 구성도
+## 최종 솔루션 및 서비스 구성도
 
 
 ![image](https://user-images.githubusercontent.com/66519046/108670883-fbdf8600-7522-11eb-8ce1-ab51c9671ee0.png)
