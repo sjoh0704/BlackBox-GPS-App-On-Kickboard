@@ -8,16 +8,13 @@
 </br>
 
 ## 서비스 시나리오 순서도  
-</br>
 
 ![image](https://user-images.githubusercontent.com/66519046/108667207-08141500-751c-11eb-8f1e-35f93f7fc0ad.png)  
 </br>
 
 ## 사용된 기술 스택 
-</br>
 
-### 1. 앱:
-</br>
+### 1. 앱
 
 ![image](https://user-images.githubusercontent.com/66519046/108670997-2c272480-7523-11eb-907e-cb1037b2db44.png)
 </br>
@@ -40,8 +37,7 @@ MMS 형태로 전달하는 기능 제공
 
 </br>
 
- ### 2. 웹-Pasta:
-</br>
+ ### 2. 웹-Pasta
 
 ![image](https://user-images.githubusercontent.com/66519046/108670970-1e719f00-7523-11eb-8f4b-16c7eba9cdeb.png)
 </br>
@@ -58,8 +54,7 @@ SQL을 호출해 DB와 통신 가능
 
 </br>
 
-### 3. 클라우드:
-</br>
+## 3. 클라우드
 
 ![image](https://user-images.githubusercontent.com/66519046/108670930-0e59bf80-7523-11eb-9021-d8ed73f2957a.png)
 </br>
@@ -80,7 +75,6 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 </br>
 
 ## 최종 솔루션 및 서비스 구성도
-</br>
 
 ![image](https://user-images.githubusercontent.com/66519046/108670883-fbdf8600-7522-11eb-8ce1-ab51c9671ee0.png)
 </br>
