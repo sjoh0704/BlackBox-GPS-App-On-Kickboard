@@ -59,38 +59,21 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 
 - ### 사용기술을 통한 서비스 구현
 
-1. 앱 - 회원가입 및 로그인
+1. 앱
+![image](https://user-images.githubusercontent.com/66519046/108670997-2c272480-7523-11eb-907e-cb1037b2db44.png)
 
-![image](https://user-images.githubusercontent.com/66519046/108667247-211cc600-751c-11eb-8cc6-e8cac6cbe4ff.png)
 
 
-![image](https://user-images.githubusercontent.com/66519046/108667269-2c6ff180-751c-11eb-97b9-231a3bb3b092.png)
-
-2. 앱- 출발지와 도착지 좌표, 사고 다발 지역 표시
-
-![image](https://user-images.githubusercontent.com/66519046/108667306-427db200-751c-11eb-8fdb-7195e5b66579.png)
-
-![image](https://user-images.githubusercontent.com/66519046/108667326-4f020a80-751c-11eb-9245-5bdc0331734f.png)
-
-3. 앱 - 블랙박스 영상 녹화 및 저장 
-
-![image](https://user-images.githubusercontent.com/66519046/108669998-74454780-7521-11eb-8273-946982da19b9.png)
-
-![image](https://user-images.githubusercontent.com/66519046/108667407-7f49a900-751c-11eb-9638-f5c2560d1cfd.png)
-
-![image](https://user-images.githubusercontent.com/66519046/108667433-8c669800-751c-11eb-87ce-e5685d11c7bb.png)
 2. 웹 - Passta
-![image](https://user-images.githubusercontent.com/66519046/108667480-a6a07600-751c-11eb-93f7-42b904424b17.png)
+![image](https://user-images.githubusercontent.com/66519046/108670970-1e719f00-7523-11eb-8f4b-16c7eba9cdeb.png)
 
-![image](https://user-images.githubusercontent.com/66519046/108668022-b3719980-751d-11eb-88e2-ec4dc9b1a616.png)
 
 3. 클라우드 
+![image](https://user-images.githubusercontent.com/66519046/108670930-0e59bf80-7523-11eb-9021-d8ed73f2957a.png)
 
 
-![image](https://user-images.githubusercontent.com/66519046/108667629-fc751e00-751c-11eb-8b64-c3685b9f92b6.png)
-
-![image](https://user-images.githubusercontent.com/66519046/108667910-79a09300-751d-11eb-8a8c-f0c477dead48.png)
-
+최종
+![image](https://user-images.githubusercontent.com/66519046/108670883-fbdf8600-7522-11eb-8ce1-ab51c9671ee0.png)
 
 
 
