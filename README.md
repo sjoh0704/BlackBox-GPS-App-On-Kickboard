@@ -11,8 +11,7 @@
 
 - ### 서비스 시나리오 순서도
 
-![f](https://user-images.githubusercontent.com/66519046/108327061-4f459180-720e-11eb-8185-6a80ec3081d3.png)
-
+![image](https://user-images.githubusercontent.com/66519046/108666918-9936bc00-751b-11eb-8684-3a4b610d6ce6.png)
 
 
 - ### 파트별 사용 기술 설명
