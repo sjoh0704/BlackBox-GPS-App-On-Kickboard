@@ -50,7 +50,7 @@ SQL을 호출해 DB와 통신 가능
 - MVC패턴 사용
 </br></br>
 
-## 3. 클라우드
+### 3. 클라우드
 
 ![image](https://user-images.githubusercontent.com/66519046/108670930-0e59bf80-7523-11eb-9021-d8ed73f2957a.png)
 </br>
