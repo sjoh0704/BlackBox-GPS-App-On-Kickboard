@@ -5,12 +5,12 @@
 ## 목적 또는 기획 배경
 전동 킥보드 확산에 따른 미성년자 킥보드 사용 문제 제기    
 이에 대한 해결책으로 보호자 동의하에 사용할 수 있는 블랙박스 어플리케이션 기획
-</br>
+</br></br>
 
 ## 서비스 시나리오 순서도  
 
 ![image](https://user-images.githubusercontent.com/66519046/108667207-08141500-751c-11eb-8f1e-35f93f7fc0ad.png)  
-</br>
+</br></br>
 
 ## 사용된 기술 스택 
 
@@ -33,9 +33,7 @@ MMS 형태로 전달하는 기능 제공
 비스 제공, 문자 메시지 전달 기능 제공
 - 가속도 센서: 스마트폰에 내장된 센서로 순간 변화량에 의해 트리
 거를 감지. threshold를 조절해서 감지 기능 조절 가능
-</br>
-
-</br>
+</br></br>
 
  ### 2. 웹-Pasta
 
@@ -50,9 +48,7 @@ SQL을 호출해 DB와 통신 가능
 로 값을 받아오기 위해서 사용. 
 - 네이버 지도 API : Rest API를 통해서 지도 불러오기 및 마커 생성
 - MVC패턴 사용
-</br>
-
-</br>
+</br></br>
 
 ## 3. 클라우드
 
@@ -70,9 +66,7 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 - Prometheus & Grafana: 모니터링 도구로 cluster, DB 등의 metric
 을 수집해 대쉬보드를 구축해 모니터링 할 수 있도록 해주는 오픈소
 스 소프트웨어
-</br>
-
-</br>
+</br></br>
 
 ## 최종 솔루션 및 서비스 구성도
 
@@ -86,5 +80,15 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 - 목적지까지 무사히 도착 시 app 종료 후 보호자에게 도착 알림
 - 사고 발생 시, 보호자에게 알림 후 녹화 영상을 즉시 클라우드에 저장
 - 관리자 모니터링 및 영상은 추후 법적 자료로 사용 가능
-</br>
+</br></br>
+
+### Developer
+- [Park-Jamy](https://github.com/Park-Jamy)
+- [amp3670](https://github.com/amp3670)
+- [sjoh0704](https://github.com/sjoh0704)
+- [Sung-Minseok](https://github.com/Sung-Minseok)
+- 박재욱
+
+
+
 
