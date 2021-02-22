@@ -11,7 +11,8 @@
 
 - ### 서비스 시나리오 순서도
 
-![image](https://user-images.githubusercontent.com/66519046/108666918-9936bc00-751b-11eb-8684-3a4b610d6ce6.png)
+![image](https://user-images.githubusercontent.com/66519046/108667207-08141500-751c-11eb-8f1e-35f93f7fc0ad.png)
+
 
 
 - ### 파트별 사용 기술 설명
@@ -60,11 +61,29 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 
 1. 앱 - 회원가입 및 로그인
 
+![image](https://user-images.githubusercontent.com/66519046/108667247-211cc600-751c-11eb-8cc6-e8cac6cbe4ff.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108667269-2c6ff180-751c-11eb-97b9-231a3bb3b092.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108667306-427db200-751c-11eb-8fdb-7195e5b66579.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108667326-4f020a80-751c-11eb-9245-5bdc0331734f.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108669998-74454780-7521-11eb-8273-946982da19b9.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108667407-7f49a900-751c-11eb-9638-f5c2560d1cfd.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108667433-8c669800-751c-11eb-87ce-e5685d11c7bb.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108667480-a6a07600-751c-11eb-93f7-42b904424b17.png)
+
+![image](https://user-images.githubusercontent.com/66519046/108668022-b3719980-751d-11eb-88e2-ec4dc9b1a616.png)
 
 
-![2](https://user-images.githubusercontent.com/66519046/108331203-df390a80-7211-11eb-8201-1fc1f5d2b4d9.png)
 
+![image](https://user-images.githubusercontent.com/66519046/108667629-fc751e00-751c-11eb-8b64-c3685b9f92b6.png)
 
+![image](https://user-images.githubusercontent.com/66519046/108667910-79a09300-751d-11eb-8a8c-f0c477dead48.png)
 
 
 
