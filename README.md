@@ -81,6 +81,9 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 - 사고 발생 시, 보호자에게 알림 후 녹화 영상을 즉시 클라우드에 저장
 - 관리자 모니터링 및 영상은 추후 법적 자료로 사용 가능
 </br></br>
+### VIDEO
+[![킥보드어플리케이션](http://img.youtube.com/vi/4RjfMHu4FXQ/sddefault.jpg)](https://youtu.be/4RjfMHu4FXQ?t=0s) 
+</br></br>
 
 ### Developer
 - [Park-Jamy](https://github.com/Park-Jamy)
