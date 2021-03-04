@@ -83,7 +83,11 @@ mount해서 사용 가능. Ap의 firebase와 연동 가능
 </br></br>
 ### VIDEO
 [![킥보드어플리케이션](http://img.youtube.com/vi/4RjfMHu4FXQ/sddefault.jpg)](https://youtu.be/4RjfMHu4FXQ?t=0s) 
+
+#### made by: [Park-Jamy](https://github.com/Park-Jamy)
+
 </br></br>
+
 
 ### Developer
 - [Park-Jamy](https://github.com/Park-Jamy)
